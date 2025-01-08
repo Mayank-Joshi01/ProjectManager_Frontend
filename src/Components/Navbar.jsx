@@ -42,13 +42,13 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-                                <NavLink className={`nav-link ${location.pathname === "/iNoteBook/" ? "active" : ""}`} to="/iNoteBook/" ><span data-bs-toggle={condition ? "collapse" : undefined}
+                                <NavLink className={`nav-link ${location.pathname === "/iNoteBook/" ? "active" : ""}`} to="/" ><span data-bs-toggle={condition ? "collapse" : undefined}
                         data-bs-target={condition ? "#navbarSupportedContent" : undefined}
                         aria-controls={condition ? "navbarSupportedContent" : undefined}
                         aria-expanded="false">Home</span></NavLink>
                             </li>
               <li className="nav-item">
-                                <NavLink className={`nav-link ${location.pathname === "/iNoteBook/about/" ? "active" : ""}`} to="/iNoteBook/about/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
+                                <NavLink className={`nav-link ${location.pathname === "/iNoteBook/about/" ? "active" : ""}`} to="/about/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
                         data-bs-target={condition ? "#navbarSupportedContent" : undefined}
                         aria-controls={condition ? "navbarSupportedContent" : undefined}
                         aria-expanded="false">About</span></NavLink>
@@ -72,7 +72,7 @@ function Navbar() {
 
       <div className="aut-btn">
         <NavLink className="btn btn-outline-success" to="/login">Login</NavLink>
-        <NavLink className="btn btn-outline-success" to="/register">Register</NavLink>
+        <NavLink className="btn btn-outline-success" to="/Signup">SignUp</NavLink>
       </div>
 
       </div>
