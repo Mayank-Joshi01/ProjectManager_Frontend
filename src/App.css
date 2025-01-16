@@ -18,8 +18,11 @@
     width: 100%;
     bottom: 0;
 }
+.inline-block{
+    display: inline-block;
+}
 body{
-    min-height: 100vh;
+    min-height: 92vh;
     position: relative;
 }
 #Mode i{
@@ -77,12 +80,95 @@ input[type="checkbox"]:checked ~ label .mode #light-mode {
     width: 100vw;
     top: 0;
 }
-.login-form{
-    margin-top: 70px;
+.form{
+    margin-top: 10px;
     width: 50vw;
+}
+
+ /* ---------OTP page----------- */
+
+.otp-page{
+    height: 100vh;
+    width: 100vw;
+    z-index: 99;
+    background-color:rgba(255, 255, 255, 0.3) ;
+    backdrop-filter: blur(5px);
+    position:fixed;
+    top:0;
+    left: 0;
+    transition:display 2s ease-in-out;
+}
+
+.otp-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.otp-modal{
+    width: 400px;
+    height: 300px;
+    background-color: rgb(255, 255, 255);
+    z-index: 100;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.otp-modal ion-icon{
+    color: rgb(0, 132, 255);
+    font-size: 50px;
+}
+.otp-modal h4{
+    margin:20px 0px 20px 0px ;
+}
+.otp-modal form input{
+    height: 50px;
+    width:45px;
+    margin: 0px 2px 0px 2px;
+    border-radius: 6px;
+    font-size: 1.225rem;
+    text-align: center;
+}
+
+.otp-modal form input::-webkit-inner-spin-button,
+.otp-modal form input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.otp-time{
+    margin: 20px 0px 10px 0px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    height: 30px;
+}
+.invalid-otp{
+    border: 2px solid rgb(212, 20, 20);
+}
+.disabled{
+    font-weight: bold;
+    color: gray;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.enabled{
+    font-weight: bold;
+    color: rgb(0, 132, 255);
+    cursor: pointer;
+}
+.enabled:hover{
+    color:rgb(0, 106, 205);;
 }
 @media(max-width: 990px){
     .nav-user{
         right: 75px;
+    }
+    .form{
+        width: 75vw;
     }
 }

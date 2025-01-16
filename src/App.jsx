@@ -9,11 +9,12 @@ import User from './Components/User';
 import Error from './Components/Error';;
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
+import Alert from './Components/Alert';
 
 function App() {
 
-  const isLogined = (element)=>{
-    if(localStorage.getItem('token')){
+  const isLogined = ({element})=>{
+    if(Logedin){
       return element
     }else{
       return <Navigate to="/login/"/>
@@ -25,8 +26,9 @@ function App() {
     <>
      <BrowserRouter>
      <Navbar/>
+     <Alert/>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<isLogined element={<Home/>} />} />
         <Route exact path="/about/" element={<About />} />
         <Route exact path="/login/" element={<Login/>} />
         <Route exact path="/Signup/" element={<SignUp />} />
