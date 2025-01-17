@@ -20,7 +20,7 @@ function SignUp() {
   }
 
   /// Importing GoogleLogin from AppContext
-  const { GoogleLogin, SignUp, Showalert } = useContext(AppContext)
+  const { GoogleLogin, SignUp, Showalert,ResendOTP,VerifyOTP,Data } = useContext(AppContext)
 
 
   ///////////////// OTP  /////////////////////////
@@ -45,7 +45,7 @@ function SignUp() {
     if (time_left === "00") {
       console.log("OTP Resend Successfully");
       setTimer();
-      Showalert("OTP Resend Successfully", "success");
+      ResendOTP(user.email);
     }
   }
 
@@ -108,9 +108,10 @@ function SignUp() {
 
   // To open OTP Page
   const openOtpPage = () => {
+    if(Data.data){
     document.getElementById('otp-page').style.display = 'block';
     window.addEventListener("load", () => { inputs[0].focus() })
-    setTimer();
+    setTimer();}
   }
 
   // To handel OTP Value
@@ -125,7 +126,7 @@ function SignUp() {
 
     /// Checking if OTP is empty
     if(otp.d1 === "" || otp.d2 === "" || otp.d3 === "" || otp.d4 === "" || otp.d5 === "" || otp.d6 === ""){
-      Showalert("Please Enter OTP", "danger");
+      Showalert("Please Enter Valid OTP", "danger");
 
       //// Adding Invalid OTP Class
       for (let i = 0; i < 6; i++) {
@@ -136,22 +137,23 @@ function SignUp() {
     }
 
     OTP = `${otp.d1}${otp.d2}${otp.d3}${otp.d4}${otp.d5}${otp.d6}`;
-    console.log(OTP);
+    VerifyOTP(Data.data._id,OTP);
   }
 
   // To handel form submission
   const handelSubmit = (e) => {
     console.log(user);
     e.preventDefault();
+    SignUp(user);
     openOtpPage();
-    // SignUp(user);
+    
   }
 
   return (
     <>
 
       {/* ////// OTP Page ////// */}
-      <div className="otp-page" id="otp-page">
+      <div className="otp-page none" id="otp-page">
 
         <div className="otp-container">
 

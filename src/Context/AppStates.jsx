@@ -3,6 +3,7 @@ import AppContext from './AppContext'
 import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { Navigate, useLocation ,useNavigate} from 'react-router-dom'
 
 const AppStates = (props) => {
 
@@ -10,6 +11,9 @@ const AppStates = (props) => {
 
   /// Alert State
   const [alert, setAlert] = useState(null)
+
+  /// Authenticated State
+  const [Authenticated, setAuthenticated] = useState(false)
 
   /// Alert Function
   const Showalert = (msg, type) => {
@@ -39,10 +43,15 @@ const AppStates = (props) => {
         /// making post request to server
         const resp = await axios.post(url, data, config);
 
-        console.log('Response:', resp);
+        if(resp.data.status){
 
         /// Updating data state
         setData(resp.data);
+        localStorage.setItem('token', resp.data.token)
+        localStorage.setItem('img', resp.data.img)
+        setAuthenticated(true)
+        Showalert(`Welcome ${resp.data.data.name} to Task Manager, Logined Sucessfully`, "success")
+        }
 
       }
       else {     Showalert("Invalid Credentials", "danger")}
@@ -71,9 +80,7 @@ const AppStates = (props) => {
       const resp = await axios.post(url, data, config);
 
       if (resp.data.status) {
-        console.log('Response:', resp);
-        localStorage.setItem('token', resp.data.token)
-        Showalert("Accont Created Success fullay", "success")
+        Showalert(`OTP Sent Sucessfully to ${user.email}`, "success")
 
         /// Updating data state
         setData(resp.data);
@@ -104,6 +111,7 @@ const AppStates = (props) => {
 
         /// Updating data state
         setData(resp.data);
+        setAuthenticated(true)
       }
 
     } catch (error) {
@@ -112,19 +120,89 @@ const AppStates = (props) => {
     }
   }
 
-  /// Checking the user is authenticated logied in
-  const Logedin = ()=>{
-    if(data.token)
-    if(localStorage.getItem('token')===Data.token){
-      return true
-    }else{
-      return false
+  /// Resend OTP Functionality
+
+  const ResendOTP = async (email) => {
+    try {
+      const url = `${import.meta.env.VITE_HOST_BASE_URLL}auth/resendotp`;
+      const data = { email: email };
+      const config = {
+        headers: { 'Content-Type': 'application/json' },
+      }
+
+      /// making post request to server
+      const resp = await axios.post(url, data, config);
+
+      if (resp.data.status) {
+        Showalert("OTP Sent Successfully", "success")
+      }
+      else {
+        Showalert("Invalid Credentials", "danger")
+      }
+
+    } catch (error) {
+      console.log(error);
+      Showalert("Invalid Credentials", "danger")
     }
   }
 
 
+  /// Verify OTP Functionality
+
+  const VerifyOTP = async (id, OTP) => {
+    try {
+      const url = `${import.meta.env.VITE_HOST_BASE_URLL}auth/verifyotp`;
+      const data = { id: id, otp: OTP };
+      const config = {
+        headers: { 'Content-Type': 'application/json' },
+      }
+
+      /// making post request to server
+      const resp = await axios.post(url, data, config);
+
+      if (resp.data.status) {
+        Showalert("OTP Verified Successfully", "success");
+        localStorage.setItem('token', resp.data.token);
+        setAuthenticated(true)
+
+      }
+      else {
+        Showalert("Invalid Credentials", "danger")
+      }
+
+    } catch (error) {
+      console.log(error);
+      Showalert("Invalid Credentials", "danger")
+    }
+  } 
+
+
+  /// Checking the user is authenticated logied in
+  const Loggedin = async()=>{
+    try{
+      const url = `${import.meta.env.VITE_HOST_BASE_URLL}auth/auth`;
+      const data = { token: localStorage.getItem('token') };
+      const config = {
+        headers: { 'Content-Type': 'application/json' },
+      }
+      if(localStorage.getItem('token')){
+        const resp = await axios.post(url,data,config);
+        if(resp.data.status){
+          setAuthenticated(true)
+          return 
+        }
+      }
+      setAuthenticated(false)
+    }catch(error){
+      console.log(error)
+      setAuthenticated(false)
+    }
+  }
+
+
+
   return (
-    <AppContext.Provider value={{ GoogleLogin, Login, SignUp, alert, Showalert, Data,Logedin }}>
+    <AppContext.Provider value={{ GoogleLogin, Login, SignUp, alert, Showalert, Data,Loggedin ,Authenticated,ResendOTP,VerifyOTP }}>
       {props.children}
     </AppContext.Provider>
   );

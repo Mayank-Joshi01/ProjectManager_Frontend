@@ -164,6 +164,16 @@ input[type="checkbox"]:checked ~ label .mode #light-mode {
 .enabled:hover{
     color:rgb(0, 106, 205);;
 }
+.user-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user-nav-icon{
+    font-size: 40px;
+    color: rgb(0, 132, 255);
+    margin: 0px 10px;
+}
 @media(max-width: 990px){
     .nav-user{
         right: 75px;

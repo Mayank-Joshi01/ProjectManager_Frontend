@@ -1,11 +1,15 @@
 import React ,{useState}from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLocation} from 'react-router-dom'
+import { useContext } from 'react';
+import AppContext from '../Context/AppContext';
 
 /// Navbar
 
 function Navbar() {
+  const {Authenticated} = useContext(AppContext)
 
+console.log(Authenticated)
   let location = useLocation();
 
 
@@ -42,13 +46,13 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-                                <NavLink className={`nav-link ${location.pathname === "/iNoteBook/" ? "active" : ""}`} to="/" ><span data-bs-toggle={condition ? "collapse" : undefined}
+            <NavLink className={`nav-link ${location.pathname === "/" ? "active" : ""}`} to="/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
                         data-bs-target={condition ? "#navbarSupportedContent" : undefined}
                         aria-controls={condition ? "navbarSupportedContent" : undefined}
                         aria-expanded="false">Home</span></NavLink>
                             </li>
               <li className="nav-item">
-                                <NavLink className={`nav-link ${location.pathname === "/iNoteBook/about/" ? "active" : ""}`} to="/about/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
+                        <NavLink className={`nav-link ${location.pathname === "/about" ? "active" : ""}`} to="/about/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
                         data-bs-target={condition ? "#navbarSupportedContent" : undefined}
                         aria-controls={condition ? "navbarSupportedContent" : undefined}
                         aria-expanded="false">About</span></NavLink>
@@ -69,12 +73,14 @@ function Navbar() {
         </div>
       </label>
 
-
-      <div className="aut-btn">
-        <NavLink className="btn btn-outline-success" to="/login">Login</NavLink>
-        <NavLink className="btn btn-outline-success" to="/Signup">SignUp</NavLink>
+{Authenticated?<div className="user-nav">
+  <NavLink className="" to="/user/"><i class="fa-solid fa-circle-user user-nav-icon"></i></NavLink>
+      <NavLink className="btn btn-outline-success" to="/logout/">Logout</NavLink>
+      </div>:<div className="aut-btn">
+        <NavLink className="btn btn-outline-success" to="/login/">Login</NavLink>
+        <NavLink className="btn btn-outline-success" to="/Signup/">SignUp</NavLink>
       </div>
-
+}
       </div>
     </div>
   )
