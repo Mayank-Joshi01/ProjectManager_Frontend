@@ -20,7 +20,7 @@ function SignUp() {
   }
 
   /// Importing GoogleLogin from AppContext
-  const { GoogleLogin, SignUp, Showalert,ResendOTP,VerifyOTP,Data } = useContext(AppContext)
+  const { GoogleLogin, SignUp, Showalert,ResendOTP,VerifyOTP,Data,theme } = useContext(AppContext)
 
 
   ///////////////// OTP  /////////////////////////
@@ -108,10 +108,27 @@ function SignUp() {
 
   // To open OTP Page
   const openOtpPage = () => {
-    if(Data.data){
-    document.getElementById('otp-page').style.display = 'block';
-    window.addEventListener("load", () => { inputs[0].focus() })
-    setTimer();}
+    const interval = setInterval(() => {
+      if (Data) { // Check if Data is ready
+        console.log("Data is ready:", Data);
+  
+        // Execute your code
+        document.getElementById("otp-page").style.display = "block";
+        window.addEventListener("load", () => {
+          inputs[0]?.focus();
+        });
+        setTimer();
+  
+        // Stop the interval
+        clearInterval(interval);
+      } 
+      else if(Data === null){
+        clearInterval(interval);
+      }
+      else {
+        console.log("Waiting for Data...");
+      }
+    }, 100); // Check every 100ms
   }
 
   // To handel OTP Value
@@ -184,19 +201,19 @@ function SignUp() {
       {/* ////// SignUp Page ////// */}
       <div className='container form'>
 
-        <h1>SignUp To Project Manager</h1>
+        <h1 className={`${theme==="light"?"":"c-w"}`}>SignUp To Project Manager</h1>
         <form onSubmit={handelSubmit}>
           <div className="mb-3">
-            <label htmlFor="name" className="form-label">Username</label>
+            <label htmlFor="name" className={`form-label ${theme==="light"?"":"c-w"}`}>Username</label>
             <input type="text" className="form-control" required={true} id="name" onChange={handelChange} name='name' placeholder="Name" aria-describedby="nameHelp" />
           </div>
           <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+            <label htmlFor="exampleInputEmail1" className={`form-label ${theme==="light"?"":"c-w"}`}>Email address</label>
             <input type="email" className="form-control" required={true} id="exampleInputEmail1" onChange={handelChange} name="email" placeholder="Email" aria-describedby="emailHelp" />
-            <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+            <div id="emailHelp" className={`form-text ${theme==="light"?"":"c-w"}`}>We'll never share your email with anyone else.</div>
           </div>
           <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label" >Password</label>
+            <label htmlFor="exampleInputPassword1" className={`form-label ${theme==="light"?"":"c-w"}`} >Password</label>
             <input type="password" className="form-control" minLength={8} required={true} onChange={handelChange} name="password" id="exampleInputPassword1" />
           </div>
           <button type="submit" className="btn btn-primary w100">SignUp</button>

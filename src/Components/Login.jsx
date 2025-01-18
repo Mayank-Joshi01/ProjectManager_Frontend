@@ -1,6 +1,7 @@
 import React from 'react'
 import { useContext ,useState} from 'react';
 import AppContext from '../Context/AppContext';
+import { useEffect } from 'react';
 
 /// Login Page
 
@@ -14,9 +15,11 @@ function Login() {
       setuser({...user,...{[e.target.name]:e.target.value}})
       console.log(user);
     }
-  
+
   /// Importing GoogleLogin from AppContext
-  const { GoogleLogin ,Login} = useContext(AppContext)
+  const { GoogleLogin ,Login,Loggedin,theme} = useContext(AppContext)
+
+  useEffect(() => {Loggedin()}, [])
 
   // To handel form submission
   const handelSubmit = (e)=>{
@@ -28,15 +31,15 @@ function Login() {
 
   return (
     <div className='container form'>
-      <h1>Login To Project Manager</h1>
+      <h1 className={`${theme==="light"?"":"c-w"}`}>Login To Project Manager</h1>
       <form onSubmit={handelSubmit}>
         <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+          <label htmlFor="exampleInputEmail1" className={`form-label ${theme==="light"?"":"c-w"}`}>Email address</label>
           <input type="email" className="form-control" required={true} id="exampleInputEmail1" onChange={handelChange} name="email" aria-describedby="emailHelp" />
-          <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+          <div id="emailHelp"  className={`form-text ${theme==="light"?"":"c-w"}`}>We'll never share your email with anyone else.</div>
         </div>
         <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label" >Password</label>
+          <label htmlFor="exampleInputPassword1" className={`form-label ${theme==="light"?"":"c-w"}`} >Password</label>
           <input type="password" className="form-control" minLength={8}onChange={handelChange} name='password' required={true} id="exampleInputPassword1" />
         </div>
         <button type="submit" className="btn btn-primary w100">Login</button>

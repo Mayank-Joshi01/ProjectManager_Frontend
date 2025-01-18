@@ -14,6 +14,7 @@ import { useContext } from 'react';
 import AppContext from './Context/AppContext';
 import Logout from './Components/Logout';
 import RefreshHandler from './Components/RefreshHandler';
+import Reset_Password from './Components/Reset_Password';
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
         <Route exact path="/Signup/" element={<SignUp />} />
         <Route exact path="/user/" element={<IsLogined element={<User/>} />} />
         <Route exact path="/logout/" element={<Logout/>}/>
+        <Route exact path="/reset_password" element={<Reset_Password/>} />
         <Route path="*" element={<Error/>} />
       </Routes>
     <Footer/>

@@ -3,17 +3,22 @@ import AppContext from './AppContext'
 import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Navigate, useLocation ,useNavigate} from 'react-router-dom'
 
 const AppStates = (props) => {
 
-  const [Data, setData] = useState({})
+  const [Data, setData] = useState(null)
+
 
   /// Alert State
   const [alert, setAlert] = useState(null)
 
+  // Theme of Website
+  const [theme,setTheme] = useState("light")
+
   /// Authenticated State
   const [Authenticated, setAuthenticated] = useState(false)
+
+  useEffect(()=>{Loggedin()},[Authenticated])
 
   /// Alert Function
   const Showalert = (msg, type) => {
@@ -84,6 +89,7 @@ const AppStates = (props) => {
 
         /// Updating data state
         setData(resp.data);
+        console.log(resp.data)
       }
     }
     catch (error) {
@@ -189,10 +195,12 @@ const AppStates = (props) => {
         const resp = await axios.post(url,data,config);
         if(resp.data.status){
           setAuthenticated(true)
+          setData(resp.data.data)
           return 
         }
       }
       setAuthenticated(false)
+      setData(null)
     }catch(error){
       console.log(error)
       setAuthenticated(false)
@@ -202,7 +210,7 @@ const AppStates = (props) => {
 
 
   return (
-    <AppContext.Provider value={{ GoogleLogin, Login, SignUp, alert, Showalert, Data,Loggedin ,Authenticated,ResendOTP,VerifyOTP }}>
+    <AppContext.Provider value={{ GoogleLogin, Login, SignUp, alert, Showalert, Data,setData,Loggedin ,Authenticated,ResendOTP,VerifyOTP,theme,setTheme}}>
       {props.children}
     </AppContext.Provider>
   );

@@ -7,9 +7,8 @@ import AppContext from '../Context/AppContext';
 /// Navbar
 
 function Navbar() {
-  const {Authenticated} = useContext(AppContext)
+  const {Authenticated,theme,setTheme} = useContext(AppContext)
 
-console.log(Authenticated)
   let location = useLocation();
 
 
@@ -28,8 +27,12 @@ console.log(Authenticated)
   // Handling the mode of the website
   const handelMode = () => {
     var e = document.getElementById("mode-container");
-    e.children[0].classList.toggle("none"), e.children[1].classList.toggle("none")
-    //  ,document.body.classList.toggle("dark-mode");
+    e.children[0].classList.toggle("none"), e.children[1].classList.toggle("none"),document.body.classList.toggle("bg-d");
+  if(theme === "light"){
+    setTheme("dark")}
+    else if(theme==="dark"){
+      setTheme("light");
+    }
   }
 
   return (
@@ -37,22 +40,22 @@ console.log(Authenticated)
 
 {/* // Navbar with Home and About and App Name   */}
 
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className={`navbar navbar-expand-lg ${theme==="light"?"bg-body-tertiary":"bg-dark"}`}>
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Navbar</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <NavLink className={`navbar-brand ${theme==="light"?"":"c-w"}`} to="/" >Task Manager</NavLink>
+          <button className={`navbar-toggler ${theme==="light"?"":"bg-w"}`} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-            <NavLink className={`nav-link ${location.pathname === "/" ? "active" : ""}`} to="/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
+                       <NavLink className={`nav-link ${theme==="light"?"":"c-w"} ${location.pathname === "/" ? "active-link" : ""}`} to="/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
                         data-bs-target={condition ? "#navbarSupportedContent" : undefined}
                         aria-controls={condition ? "navbarSupportedContent" : undefined}
                         aria-expanded="false">Home</span></NavLink>
                             </li>
               <li className="nav-item">
-                        <NavLink className={`nav-link ${location.pathname === "/about" ? "active" : ""}`} to="/about/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
+                        <NavLink className={`nav-link ${theme==="light"?"":"c-w"} ${location.pathname === "/about" ? "active-link" : ""}`} to="/about/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
                         data-bs-target={condition ? "#navbarSupportedContent" : undefined}
                         aria-controls={condition ? "navbarSupportedContent" : undefined}
                         aria-expanded="false">About</span></NavLink>
@@ -67,18 +70,18 @@ console.log(Authenticated)
 <div className="nav-user">
       <input type="checkbox" name="mode-checkbox" id="mode-checkbox" className='none' onChange={(e)=>{console.log("changed to : ",e.target.value)}} />
       <label htmlFor="mode-checkbox">
-        <div className="mode" id="mode-container" onClick={handelMode}>
+        <div className={`mode ${theme==="light"?"":"c-w"}`} id="mode-container" onClick={handelMode}>
           <i className="fa-solid fa-sun mode-icon" id='light-mode' data-visible="true"></i>
-          <i className="fa-solid fa-moon mode-icon none" id='dark-mode' data-visible="false"></i>
+          <i className={`fa-solid fa-moon mode-icon none`} id='dark-mode' data-visible="false"></i>
         </div>
       </label>
 
 {Authenticated?<div className="user-nav">
-  <NavLink className="" to="/user/"><i class="fa-solid fa-circle-user user-nav-icon"></i></NavLink>
-      <NavLink className="btn btn-outline-success" to="/logout/">Logout</NavLink>
+  <NavLink to="/user/"><i className="fa-solid fa-circle-user user-nav-icon"></i></NavLink>
+      <NavLink className="btn btn-outline-primary" to="/logout/">Logout</NavLink>
       </div>:<div className="aut-btn">
-        <NavLink className="btn btn-outline-success" to="/login/">Login</NavLink>
-        <NavLink className="btn btn-outline-success" to="/Signup/">SignUp</NavLink>
+        <NavLink className="btn btn-outline-primary" to="/login/">Login</NavLink>
+        <NavLink className="btn btn-outline-primary" to="/Signup/">SignUp</NavLink>
       </div>
 }
       </div>
