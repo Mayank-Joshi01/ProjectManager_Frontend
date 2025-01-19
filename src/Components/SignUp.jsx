@@ -108,9 +108,6 @@ function SignUp() {
 
   // To open OTP Page
   const openOtpPage = () => {
-    const interval = setInterval(() => {
-      if (Data) { // Check if Data is ready
-        console.log("Data is ready:", Data);
   
         // Execute your code
         document.getElementById("otp-page").style.display = "block";
@@ -118,18 +115,8 @@ function SignUp() {
           inputs[0]?.focus();
         });
         setTimer();
-  
-        // Stop the interval
-        clearInterval(interval);
       } 
-      else if(Data === null){
-        clearInterval(interval);
-      }
-      else {
-        console.log("Waiting for Data...");
-      }
-    }, 100); // Check every 100ms
-  }
+       
 
   // To handel OTP Value
   const handelOTP_value = (e) => {

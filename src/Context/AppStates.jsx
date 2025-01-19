@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 const AppStates = (props) => {
 
   const [Data, setData] = useState(null)
-
+console.log("hmmmmm")
 
   /// Alert State
   const [alert, setAlert] = useState(null)
@@ -19,6 +19,7 @@ const AppStates = (props) => {
   const [Authenticated, setAuthenticated] = useState(false)
 
   useEffect(()=>{Loggedin()},[Authenticated])
+
 
   /// Alert Function
   const Showalert = (msg, type) => {
@@ -90,6 +91,7 @@ const AppStates = (props) => {
         /// Updating data state
         setData(resp.data);
         console.log(resp.data)
+        console.log(Data)
       }
     }
     catch (error) {

@@ -2,6 +2,7 @@ import React ,{useState}from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLocation} from 'react-router-dom'
 import { useContext } from 'react';
+import { useEffect } from 'react';
 import AppContext from '../Context/AppContext';
 
 /// Navbar
@@ -10,6 +11,8 @@ function Navbar() {
   const {Authenticated,theme,setTheme} = useContext(AppContext)
 
   let location = useLocation();
+
+  const [img, setImg] = useState(null)
 
 
   /// Monitoring the width of the window
@@ -35,6 +38,17 @@ function Navbar() {
     }
   }
 
+
+//// To Stop Multiple Rendering of Image
+  useEffect(()=>{
+    setTimeout(()=>{
+    if(localStorage.getItem("img")){
+      console.log("hoo")
+      setImg(localStorage.getItem("img"))
+    }},100)
+  },[localStorage.getItem("img")])
+
+  
   return (
     <div className="navbar-container">
 
@@ -77,7 +91,7 @@ function Navbar() {
       </label>
 
 {Authenticated?<div className="user-nav">
-  <NavLink to="/user/"><i className="fa-solid fa-circle-user user-nav-icon"></i></NavLink>
+  <NavLink to="/user/">{img?<img className='user-img' src={img} loading="lazy" alt="user"  />:<i className="fa-solid fa-circle-user user-nav-icon"></i>}</NavLink>
       <NavLink className="btn btn-outline-primary" to="/logout/">Logout</NavLink>
       </div>:<div className="aut-btn">
         <NavLink className="btn btn-outline-primary" to="/login/">Login</NavLink>
