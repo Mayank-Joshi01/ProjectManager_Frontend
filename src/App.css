@@ -1,3 +1,9 @@
+body{
+    overflow: scroll;
+}
+body::-webkit-scrollbar {
+    display: none;
+  }
 .w100 {
     width: 100% !important;
 }
@@ -6,6 +12,13 @@
 }
 .wvw{
     width: 50vw;
+}
+.c-wheat{
+    color: rgb(224, 224, 224);
+}
+.m0p0{
+    margin: 0 !important;
+    padding: 0 !important;
 }
 .m-b-4{
     margin-bottom: 4px !important;
@@ -16,11 +29,17 @@
 .mt80{
     margin-top: 80px;
 }
+.c-p{
+    cursor: pointer;
+}
 .c-b{
     color: rgb(0, 132, 255);
 }
 .c-w{
     color:white !important;
+}
+.d-i-b{
+    display: inline-block;
 }
 .styl-flx{
     display: flex;
@@ -54,6 +73,9 @@ body{
     min-height: 92vh;
     position: relative;
 }
+
+/* ///////// Nav Bar ////////// */
+
 #Mode i{
     color:black
 }
@@ -190,8 +212,8 @@ input[type="checkbox"]:checked ~ label .mode #light-mode {
 .disabled{
     font-weight: bold;
     color: gray;
-    cursor: not-allowed;
-    pointer-events: none;
+    /* cursor: not-allowed; */
+    /* pointer-events: none; */
 }
 .enabled{
     font-weight: bold;
@@ -305,8 +327,58 @@ input[type="checkbox"]:checked ~ label .mode #light-mode {
 .icon{
     color: #0084ff;
 }
-                
+  
 
+.home-page-conatainer{
+    padding-bottom: 60px; /* To add Margin to home page content from footer */
+}
+/* ///////////////////////// Project Card ///////////////////////// */
+
+.card-toggle-buttons{
+    height: 50px;
+}
+.Pending-Tasks-box{
+    height: 200px;
+    overflow: scroll;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
+.Pending-Tasks-box::-webkit-scrollbar {
+    display: none;
+  }
+.Completed-Tasks-box{
+    height: 200px;
+    overflow: scroll;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
+.Completed-Tasks-box::-webkit-scrollbar {
+    display: none;
+  }
+.Task-card-functonality{
+    height: 50px;
+    margin: 10px 0px 0px 0px;
+}
+.Task-card-functonality i{
+    font-size: 40px;
+    cursor: pointer;
+}
+
+
+/* ///////// Completed Task //////////// */
+.Completed-Tasks-box ul li i{
+font-size: 30px;
+cursor: pointer;
+}
+
+.active-card-task-link{
+font-weight: bold;
+    color: rgb(0, 132, 255);
+}
+.inactive-card-task-link{
+font-weight: bold;
+    color: gray;
+}
 @media(max-width: 990px){
     .nav-user{
         right: 75px;
