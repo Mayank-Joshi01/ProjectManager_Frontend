@@ -6,8 +6,7 @@ import { useState, useEffect } from 'react'
 
 const AppStates = (props) => {
 
-  const [Data, setData] = useState(null)
-console.log("hmmmmm")
+  const [Data, setData] = useState(null);
 
   /// Alert State
   const [alert, setAlert] = useState(null)
@@ -18,8 +17,14 @@ console.log("hmmmmm")
   /// Authenticated State
   const [Authenticated, setAuthenticated] = useState(false)
 
-  useEffect(()=>{Loggedin()},[Authenticated])
+  //// Projects State
+  const [Projects, setProjects] = useState([])
 
+
+  useEffect(()=>{Loggedin();
+  },[Authenticated])
+useEffect(()=>{fetch_Projects();
+},[])
 
   /// Alert Function
   const Showalert = (msg, type) => {
@@ -205,14 +210,116 @@ console.log("hmmmmm")
       setData(null)
     }catch(error){
       console.log(error)
+      Showalert(error.message,"danger")
       setAuthenticated(false)
     }
   }
 
+  //////////// Getting Projects ////////////
+  const fetch_Projects = async()=>{
+    try{
+      console.log(localStorage.getItem('token'))
+      const url = `${import.meta.env.VITE_HOST_BASE_URLL}project/fetchProjects`;
+      const data = {};
+      const config = {
+        headers: { 'Content-Type': 'application/json' ,
+          "token":localStorage.getItem('token')
+        }
+      }
+      if(localStorage.getItem('token')){
+        console.log(config.headers)
+        const resp = await axios.get(url,config);/////// dont use data in get request in axios
+        if(resp.data.status){
+          setProjects(resp.data.projects)
+          console.log(resp.data.projects)
+          return 
+        }
+      }
+      setProjects([])
+      
+    }
+    catch(error){
+      console.log(error)
+      Showalert(error.message,"danger")
+      setProjects([])
+    }
+  }
 
+  //////////// Adding A Project ////////////
+
+  const AddProject = async (Title,link, Pending_Task) => {
+    try{
+      console.log(localStorage.getItem('token'))
+      const url = `${import.meta.env.VITE_HOST_BASE_URLL}project/addProject`;
+      const data = { link: link, Pending_Task: Pending_Task ,Title:Title};
+      const config = {
+        headers: { 'Content-Type': 'application/json' ,
+          "token":localStorage.getItem('token')
+        }
+      }
+      if(localStorage.getItem('token')){
+        const resp = await axios.post(url,data,config);
+        if(resp.data.status){
+          setProjects([...Projects,resp.data.project])
+          Showalert("Project Added Successfully","success")
+          return 
+        }
+      }
+      setProjects([])
+    }
+    catch(error){
+      console.log(error)
+      Showalert(error.message,"danger")
+      setProjects([])
+    }
+  }
+
+  //////////// Deleting A Project ////////////
+ const DeleteProject = async (id) => {
+  try{
+    const url = `${import.meta.env.VITE_HOST_BASE_URLL}project/deleteProject/${id}`;
+    const config = {
+      headers: { 'Content-Type': 'application/json',
+        "token":localStorage.getItem('token')
+       }
+    }
+    if(localStorage.getItem('token')){
+      const resp = await axios.delete(url,config);
+      if(resp.data.status){
+        setProjects(Projects.filter((project)=>project._id!==id))
+        Showalert("Project Deleted Successfully","success")
+        return 
+      }
+    }
+    setProjects([])
+  }
+  catch(error){
+    console.log(error)
+    Showalert(error.message,"danger")
+    setProjects([])
+  }
+}
+
+  //////////// Updating A Project ////////////
+  const UpdateProject = async (id,Title,link, Pending_Task) => {
+    try {
+      console.log("hi")
+      return true
+    } catch (error) {
+      console.log(error)
+      Showalert(error.message, "danger")
+      return false
+    }
+
+  }
+
+
+  ///////////// A task got completed ////////////
+ const Mange_Completed_Task = async (id,Pending_Task,Completed_Task) => {
+ }
 
   return (
-    <AppContext.Provider value={{ GoogleLogin, Login, SignUp, alert, Showalert, Data,setData,Loggedin ,Authenticated,ResendOTP,VerifyOTP,theme,setTheme}}>
+    <AppContext.Provider value={{ GoogleLogin, Login, SignUp, alert, Showalert, Data,setData,Loggedin ,Authenticated,ResendOTP,VerifyOTP,theme,setTheme,Projects,setProjects,DeleteProject,AddProject,UpdateProject}}>
       {props.children}
     </AppContext.Provider>
   );

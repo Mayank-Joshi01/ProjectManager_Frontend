@@ -30,11 +30,12 @@ function App() {
   }
 
   return (
-    <>
+    <div style={{position:'relative' , minHeight:"100vh"}}>
      <BrowserRouter>
      <Navbar/>
      <RefreshHandler/>
      <Alert/>
+     <div>
       <Routes>
         <Route exact path="/" element={<IsLogined element={<Home/>} />} />
         <Route exact path="/about/" element={<About />} />
@@ -45,9 +46,10 @@ function App() {
         <Route exact path="/reset_password" element={<Reset_Password/>} />
         <Route path="*" element={<Error/>} />
       </Routes>
+      </div>
     <Footer/>
      </BrowserRouter>
-    </>
+    </div>
   )
 }
 

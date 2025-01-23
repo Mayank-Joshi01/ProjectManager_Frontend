@@ -1,119 +1,156 @@
-body{
+body {
     overflow: scroll;
+    height: 100vh;
+}
+#root{
+    margin-top: 70px;
 }
 body::-webkit-scrollbar {
     display: none;
-  }
+}
+
 .w100 {
     width: 100% !important;
 }
-.h100{
+
+.h100 {
     height: 100%;
 }
-.wvw{
+
+.wvw {
     width: 50vw;
 }
-.c-wheat{
+
+.c-wheat {
     color: rgb(224, 224, 224);
 }
-.m0p0{
+
+.m0p0 {
     margin: 0 !important;
     padding: 0 !important;
 }
-.m-b-4{
+
+.m-b-4 {
     margin-bottom: 4px !important;
 }
-.bg-dw{
+
+.bg-dw {
     background-color: rgb(227, 227, 227);
 }
-.mt80{
+
+.mt80 {
     margin-top: 80px;
 }
-.c-p{
+
+.c-p {
     cursor: pointer;
 }
-.c-b{
+
+.c-b {
     color: rgb(0, 132, 255);
 }
-.c-w{
-    color:white !important;
+
+.c-w {
+    color: white !important;
 }
-.d-i-b{
+
+.d-i-b {
     display: inline-block;
 }
-.styl-flx{
+
+.styl-flx {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.bg-w{
+
+.bg-w {
     background-color: white;
 }
-.bg-b{
+
+.bg-b {
     background-color: black;
 }
-.bg-d{
+
+.bg-d {
     background-color: #212529;
 }
+
 .td-none {
     text-decoration: none;
 }
-.none{
+
+.none {
     display: none;
 }
-.footer{
+
+.footer {
     position: absolute;
     width: 100%;
     bottom: 0;
 }
-.inline-block{
+
+.inline-block {
     display: inline-block;
 }
-body{
+
+body {
     min-height: 92vh;
     position: relative;
 }
 
 /* ///////// Nav Bar ////////// */
 
-#Mode i{
-    color:black
+/* //////////// Changing Mode or Theme ////////// */
+#Mode i {
+    color: black
 }
-.mode{
+
+.mode {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 42px;
     height: 42px;
     text-align: center;
-    background-color: red;
+    background:transparent;
     border-radius: 50px;
     cursor: pointer;
 }
 
 i{
-    transition: font-size 0.5s,transform 0.5s ease-in-out;
-    
+    transition: font-size 0.5s, transform 0.5s ease-in-out;
+
 }
-.fa-sun{
-    font-size: 30px;
+ion-icon{
+    transition: height 0.5s, width 0.5s, transform 0.5s ease-in-out;
+}
+
+ion-icon{
+    height: 40px;
+    width: 40px;
     transform: rotate(180deg);
 }
-.fa-moon{
+
+.fa-moon {
     font-size: 0px;
     transform: rotate(0deg);
 }
-input[type="checkbox"]:checked ~ label .mode #dark-mode {
- /* Show moon icon */
+
+input[type="checkbox"]:checked~label .mode #dark-mode {
+    /* Show moon icon */
     font-size: 30px;
     transform: rotate(360deg);
 }
-input[type="checkbox"]:checked ~ label .mode #light-mode {
+
+input[type="checkbox"]:checked~label .mode ion-icon{
     /* Show moon icon */
-       font-size: 0px;
-       transform: rotate(0deg);
-   }
-.nav-user{
+    height: 0px;
+    width: 0px;
+    transform: rotate(0deg);
+}
+
+.nav-user {
     height: 56px;
     position: fixed;
     top: 0;
@@ -124,69 +161,77 @@ input[type="checkbox"]:checked ~ label .mode #light-mode {
     margin-right: 10px;
 }
 
-.aut-btn .btn{
+.aut-btn .btn {
     margin: 0px 5px;
 }
-.navbar-container{
-    position:sticky;
+
+.navbar-container {
+    position: sticky;
     z-index: 9999;
 }
-.navbar{
+
+.navbar {
     position: fixed;
     width: 100vw;
     top: 0;
 }
-.form{
+
+.form {
     margin-top: 10px;
     width: 50vw;
 }
 
-.active-link{
+.active-link {
     font-weight: bold;
 }
- /* ---------OTP page----------- */
 
-.otp-page{
+/* ---------OTP page----------- */
+
+.otp-page {
     height: 100vh;
     width: 100vw;
     z-index: 99;
-    background-color:rgba(255, 255, 255, 0.3) ;
+    background-color: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(5px);
-    position:fixed;
-    top:0;
+    position: fixed;
+    top: 0;
     left: 0;
-    transition:display 2s ease-in-out;
+    transition: display 2s ease-in-out;
 }
 
-.otp-container{
+.otp-container {
     height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.otp-modal{
+
+.otp-modal {
     width: 400px;
     height: 300px;
     background-color: rgb(255, 255, 255);
     z-index: 100;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
-.otp-modal ion-icon{
+
+.otp-modal ion-icon {
     color: rgb(0, 132, 255);
     font-size: 50px;
 }
-.otp-modal h4{
-    margin:20px 0px 20px 0px ;
+
+.otp-modal h4 {
+    margin: 20px 0px 20px 0px;
 }
-.otp-modal form input{
+
+.otp-modal form input {
     height: 50px;
-    width:45px;
+    width: 45px;
     margin: 0px 2px 0px 2px;
     border-radius: 6px;
     font-size: 1.225rem;
@@ -199,44 +244,50 @@ input[type="checkbox"]:checked ~ label .mode #light-mode {
     margin: 0;
 }
 
-.otp-time{
+.otp-time {
     margin: 20px 0px 10px 0px;
     display: flex;
     width: 100%;
     justify-content: space-between;
     height: 30px;
 }
-.invalid-otp{
+
+.invalid-otp {
     border: 2px solid rgb(212, 20, 20);
 }
-.disabled{
+
+.disabled {
     font-weight: bold;
     color: gray;
     /* cursor: not-allowed; */
     /* pointer-events: none; */
 }
-.enabled{
+
+.enabled {
     font-weight: bold;
     color: rgb(0, 132, 255);
     cursor: pointer;
 }
-.enabled:hover{
-    color:rgb(0, 106, 205);;
+
+.enabled:hover {
+    color: rgb(0, 106, 205);
+    ;
 }
 
 /* /////////////////////////User Nav//////////////////////// */
-.user-nav{
+.user-nav {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.user-nav-icon{
+
+.user-nav-icon {
     font-size: 40px;
     color: rgb(0, 132, 255);
     margin: 0px 10px;
 }
 
-.user-img{
+.user-img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -244,57 +295,99 @@ input[type="checkbox"]:checked ~ label .mode #light-mode {
 }
 
 /* /////// About Page //////// */
-.card-img-top{
+.card-img-top {
     height: 300px;
-     background-image: url("./images/iron_man_1.png");
-     background-size: cover;
-     background-position: center;
-   }
-   .social-icon i{
-     font-size: 30px;
-     margin-right: 20px;
-     cursor: pointer;
+    background-image: url("./images/iron_man_1.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.social-icon i {
+    font-size: 30px;
+    margin-right: 20px;
+    cursor: pointer;
     color: #0084ff;
-     text-decoration: none;
-    transition:font-size 0.3s ease-in-out ;
+    text-decoration: none;
+    transition: font-size 0.3s ease-in-out;
     width: 100%;
     text-align: center;
-   }
-   .social-icon i:hover{
-     font-size: 40px;
-   }
-   .social-icon a:link{
-     text-decoration: none;
-    
-   }
-   .card{
-     margin: 30px 0px 0px 0px;
-   }
-   .social-icon{
-     height: 50px;
-     display: flex;
-     align-items: center;
-   }
-   .social-icon a{
-     width: 50px;
-     text-align: center;
-   }
-   .about-card-container{
+}
+
+.social-icon i:hover {
+    font-size: 40px;
+}
+
+.social-icon a:link {
+    text-decoration: none;
+
+}
+
+.card {
+    margin: 30px 0px 0px 0px;
+}
+
+.social-icon {
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.social-icon a {
+    width: 50px;
+    text-align: center;
+}
+
+.about-card-container {
     padding: 0px 10px 80px 10px;
-   }
+}
 
- /* /////////// User Card ////////////// */
+/* /////////// User Page ///////////// */
+
+.name-input-user {
+    font-weight: 600;
+    font-size: 20px;
+    height: 24px;
+    padding: 0px 0px 0px 0px;
+    border: none;
+    border-radius:0px ;
+    box-shadow: none;
+    outline: none;
+    border-bottom: 2px solid rgb(0, 132, 255);
+}
+.name-input-user[data-theme="dark"]:focus{
+    background-color: black !important;
+}
+.about-input-user[data-theme="dark"]:focus{
+    background-color: black !important;
+}
+.about-input-user {
+    font-size:16px;
+    height:30px;
+    padding:0px;
+    margin-bottom:10px;
+    border: none;
+    border-radius:0px ;
+    box-shadow: none;
+    outline: none;
+    border-bottom: 2px solid rgb(0, 132, 255);
+}
+
+.about-input-user:focus{
+    outline: none;
+}
+/* /////////// User Card ////////////// */
 
 
 
-                /* /////////// Password Update Section ////////////// */
-.password-container{
+/* /////////// Password Update Section ////////////// */
+.password-container {
     margin-top: 50px;
     height: 60px;
     border-radius: 15px;
     justify-content: center;
 }
-.password-update .password-box{
+
+.password-update .password-box {
     width: 12em;
     height: 40px;
     border-radius: 5px;
@@ -303,87 +396,273 @@ input[type="checkbox"]:checked ~ label .mode #light-mode {
     padding: 0px 10px;
     font-size: 1.2rem;
 }
-.password-update input{
+
+.password-update input {
     width: 88%;
     height: 100%;
     border: none;
     outline: none;
     font-size: 1.2rem;
 }
-.password-update{
+
+.password-update {
     overflow: hidden;
     height: 60px;
     width: 128px;
     transition: width 2s ease-in-out;
 }
-.password-update p{
+
+.password-update p {
     line-height: 60px;
     margin: 0px;
     cursor: pointer;
 }
-.password-update form{
+
+.password-update form {
     display: flex;
 }
-.icon{
+
+.icon {
     color: #0084ff;
 }
-  
 
-.home-page-conatainer{
-    padding-bottom: 60px; /* To add Margin to home page content from footer */
+
+.home-page-conatainer {
+    padding-bottom: 60px;
+    /* To add Margin to home page content from footer */
 }
-/* ///////////////////////// Project Card ///////////////////////// */
 
-.card-toggle-buttons{
+/* ///////////////////////// Project Card ///////////////////////// */
+.my-card-header h5{
+width: 78%;
+    height: 30px;
+    scrollbar-width: none;
+    overflow-x: scroll;
+    overflow-wrap: normal;
+    word-wrap: normal;}
+
+.card-toggle-buttons {
     height: 50px;
 }
-.Pending-Tasks-box{
+
+.Completed-Tasks-box {
     height: 200px;
     overflow: scroll;
-    -ms-overflow-style: none; 
-    scrollbar-width: none;  
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
-.Pending-Tasks-box::-webkit-scrollbar {
-    display: none;
-  }
-.Completed-Tasks-box{
-    height: 200px;
-    overflow: scroll;
-    -ms-overflow-style: none; 
-    scrollbar-width: none;  
-}
+
 .Completed-Tasks-box::-webkit-scrollbar {
     display: none;
-  }
-.Task-card-functonality{
+}
+
+.Task-card-functonality {
     height: 50px;
     margin: 10px 0px 0px 0px;
 }
-.Task-card-functonality i{
+
+.Task-card-functonality i {
     font-size: 40px;
     cursor: pointer;
 }
 
+/*/////////// Pending Task ///////////// */
+.Pending-Tasks-box {
+    height: 200px;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding: 0px !important;
+}
+
+.Pending-Tasks-box::-webkit-scrollbar {
+    display: none;
+}
+
+.Pending-Task-List-item {
+    width: 100%;
+    height: 39px;
+    overflow: hidden;
+    padding: 0px !important;
+    transition: width 1.5s ease-in-out;
+}
+
+.Pending-Task-List-item label {
+    line-height: 39px;
+    height: 39px;
+    overflow: hidden;
+    width: 100%;
+    display: block !important;
+    ;
+}
+
+.form-check-input {
+    padding: 0px !important;
+    margin: 0px 5px 0px 5px !important;
+}
 
 /* ///////// Completed Task //////////// */
-.Completed-Tasks-box ul li i{
-font-size: 30px;
-cursor: pointer;
+.Completed-Tasks-box ul li i {
+    font-size: 30px;
+    cursor: pointer;
 }
 
-.active-card-task-link{
-font-weight: bold;
+.Completed-Tasks-box {
+    padding-left: 5px !important;
+}
+
+.active-card-task-link {
+    font-weight: bold;
     color: rgb(0, 132, 255);
 }
-.inactive-card-task-link{
-font-weight: bold;
+
+.inactive-card-task-link {
+    font-weight: bold;
     color: gray;
 }
-@media(max-width: 990px){
-    .nav-user{
+
+.Project-card-container {
+    display: grid;
+    place-items: center;
+    grid-template-columns: auto auto auto auto;
+    padding: 10px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255);
+    /* Semi-transparent red */
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    /* Blurs elements underneath */
+    z-index: 2;
+    /* Ensures overlay is on top of content */
+    pointer-events: none;
+    /* Allows clicks to pass through the overlay */
+    transition: backdrop-filter 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+/* //////////////////// Add Project Task /////////////////////// */
+
+.add-project-task-adding {
+    height: 200px;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+}
+
+.add-project-task-adding::-webkit-scrollbar {
+    display: none;
+}
+
+.task-add-btn {
+    cursor: pointer;
+}
+
+.task-remove-btn {
+    cursor: pointer;
+}
+
+.add-project-container {
+    padding: 10px;
+}
+
+.add-project-box {
+    padding: 25px;
+    border: 2px solid rgb(182, 179, 179);
+    border-radius: 15px;
+}
+
+.add-project-box:hover {
+    border: 2px solid rgb(0, 132, 255);
+}
+
+.card-icons {
+    font-size: 30px;
+    cursor: pointer;
+    color: rgb(0, 132, 255);
+    ;
+}
+
+.add-project-box input {
+    width: 98%;
+    border: none;
+    border-bottom: 2px solid rgb(0, 132, 255);
+    height: 40px;
+    font-size: 20px;
+    font-weight: 500;
+    transition: box-shadow 0.5s, border 0.5s;
+}
+
+.add-project-box input:focus {
+    outline: none;
+    box-shadow: 0px 0px 5px 5px rgba(107, 183, 255, 0.716);
+    border: none;
+    border-radius: 5px;
+}
+
+.add-project-header {
+    margin-bottom: 25px;
+    margin-top: 15px;
+}
+
+.add-project-task {
+    padding: 5px;
+}
+
+.add-project-task input {
+    width: 95%;
+    height: 35px;
+    font-size: 16px;
+    font-weight: 350;
+}
+
+.task-card-submit-button {
+    padding: 10px;
+}
+
+
+/* /////////// Modal //////////// */
+.modal-dialog {
+    margin-top: 100px;
+}
+
+
+/* ///////////// Edit Project Modal //////////////// */
+.Edit-add-project-task input {
+    width: 95%;
+    height: 35px;
+    font-size: 16px;
+    font-weight: 350;
+}
+
+@media(max-width: 1200px) {
+    .Project-card-container {
+        grid-template-columns: auto auto auto;
+    }
+}
+
+@media(max-width: 990px) {
+    .nav-user {
         right: 75px;
     }
-    .form{
+
+    .form {
         width: 75vw;
+    }
+
+    .Project-card-container {
+        grid-template-columns: auto auto;
+    }
+}
+
+@media(max-width: 650px) {
+    .Project-card-container {
+        grid-template-columns: auto;
     }
 }

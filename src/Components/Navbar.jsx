@@ -62,17 +62,17 @@ function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-                       <NavLink className={`nav-link ${theme==="light"?"":"c-w"} ${location.pathname === "/" ? "active-link" : ""}`} to="/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
+            <li className="nav-item" data-bs-toggle={condition ? "collapse" : undefined}
                         data-bs-target={condition ? "#navbarSupportedContent" : undefined}
                         aria-controls={condition ? "navbarSupportedContent" : undefined}
-                        aria-expanded="false">Home</span></NavLink>
+                        aria-expanded="false">
+                       <NavLink to="/"className={`nav-link ${theme==="light"?"":"c-w"} ${location.pathname === "/" ? "active-link" : ""}`}> <span>Home</span></NavLink>
                             </li>
-              <li className="nav-item">
-                        <NavLink className={`nav-link ${theme==="light"?"":"c-w"} ${location.pathname === "/about" ? "active-link" : ""}`} to="/about/" ><span  data-bs-toggle={condition ? "collapse" : undefined}
+              <li className="nav-item" data-bs-toggle={condition ? "collapse" : undefined}
                         data-bs-target={condition ? "#navbarSupportedContent" : undefined}
                         aria-controls={condition ? "navbarSupportedContent" : undefined}
-                        aria-expanded="false">About</span></NavLink>
+                        aria-expanded="false">
+                        <NavLink to="/about/" className={`nav-link ${theme==="light"?"":"c-w"} ${location.pathname === "/about/" ? "active-link" : ""}`}><span>About</span></NavLink>
                             </li>
             </ul>
           </div>
@@ -82,13 +82,17 @@ function Navbar() {
 {/* // User Login and Register Button and Mode Button and user button */}
 
 <div className="nav-user">
+
+  {/* ///// theme toggle component */}
       <input type="checkbox" name="mode-checkbox" id="mode-checkbox" className='none' onChange={(e)=>{console.log("changed to : ",e.target.value)}} />
       <label htmlFor="mode-checkbox">
         <div className={`mode ${theme==="light"?"":"c-w"}`} id="mode-container" onClick={handelMode}>
-          <i className="fa-solid fa-sun mode-icon" id='light-mode' data-visible="true"></i>
+          {/* <i className="fa-solid fa-sun mode-icon" id='light-mode' data-visible="true"></i> */}
+          <ion-icon name="sunny-outline" className="son-icon fa-solid fa-sun mode-icon" id='light-mode' data-visible="true"></ion-icon>
           <i className={`fa-solid fa-moon mode-icon none`} id='dark-mode' data-visible="false"></i>
         </div>
       </label>
+
 
 {Authenticated?<div className="user-nav">
   <NavLink to="/user/">{img?<img className='user-img' src={img} loading="lazy" alt="user"  />:<i className="fa-solid fa-circle-user user-nav-icon"></i>}</NavLink>

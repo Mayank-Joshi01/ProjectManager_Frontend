@@ -7,7 +7,10 @@ import { Buffer } from 'buffer';
 
 function User() {
 
-  const { Data, theme, Showalert, setData } = useContext(AppContext)
+
+  const { Data, theme, Showalert, setData ,Projects} = useContext(AppContext)
+
+  console.log(Projects.length)
 
   const [Name, setName] = useState(Data.name)
   const [about, setabout] = useState(Data.about)
@@ -32,9 +35,7 @@ function User() {
         setimgUrl(localStorage.getItem("img"))
       }
     }, 100)
-    console.log("this", Data)
     if (Data.image) {
-      console.log("this", Data.image)
       setimgUrl("data:image/png;base64," + bufferToBase64(Buffer.from(Data.image.data)))
       localStorage.setItem("img", "data:image/png;base64," + bufferToBase64(Buffer.from(Data.image.data)))
     }
@@ -185,11 +186,19 @@ function User() {
 
   }
 
-
-
   const [password, setpassword] = useState(false)
 
 
+///////// Info about User Projects /////////
+
+const Info_User_Projects = () => {
+  return <div className={`d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary m-b-4}`}>
+  <div>
+    <p className="small text-muted mb-1">Working on Projects</p>
+    <p className="mb-0">{Projects.length} </p>
+  </div>
+  </div>
+}
 
   return (
 
@@ -204,7 +213,7 @@ function User() {
                     <div className="flex-shrink-0" style={{ width: "130px", height: "130px",marginBottom:"10px" }}>
                       <img src={imgUrl} align="middle" alt="Generic placeholder image" className="img-fluid img-form" style={{ width: "130px", height: "130px", bordeRadius: "10px" }} />
                     </div>
-                    <form action={`${import.meta.env.VITE_HOST_BASE_URLL}user/update_user_info`} method="post" encType="multipart/form-data" className='img-form' >
+                    <form action={`${import.meta.env.VITE_HOST_BASE_URLL}user/update_user_info`} method="post" encType="multipart/form-data" className='img-form styl-flx' >
                       <label htmlFor="image" className="img-label btn btn-outline-primary me-1 flex-grow-1 w100">{values.current.text ? "Change" : "Change Image"}</label>
                       <input type="file" id='image' className='none' name="profileImage" onChange={handelChange} />
                       <button type="submit" onClick={handelSubmit} className={`btn img-label btn-outline-success me-1 flex-grow-1 ${values.current.btn ? "" : "none"}`}>Save</button>
@@ -214,28 +223,18 @@ function User() {
                     {Update_user?<div>
                       <form onSubmit={Update_User}>
                       <div className="">
-                        <input type="text" className="form-control" style={{fontWeight:"bold",height:"30px"}} required={true} maxLength={20} id="name" onChange={(e) => { setName(e.target.value) }} value={Name} name='name' placeholder="Name" aria-describedby="nameHelp" />
-                      <input type="text" className="form-control" style={{fontSize:"15px",marginTop:"5px",height:"30px",marginBottom:"7px"}} required={true} id="about" maxLength={20} onChange={(e) => { setabout(e.target.value) }} value={about} name='about' placeholder="About" aria-describedby="nameHelp" />
+                        <input type="text" className={`${theme === "light" ? "" : "c-w"} ${theme === "light" ? "" : "bg-b"} form-control name-input-user`} data-theme={`${theme}`} required={true} maxLength={20} id="name" onChange={(e) => { setName(e.target.value) }} value={Name} name='name' placeholder="Name" aria-describedby="nameHelp" />
+                      <input type="text" className={`${theme === "light" ? "" : "c-w"} ${theme === "light" ? "" : "bg-b"} form-control about-input-user`}  data-theme={`${theme}`} required={true} id="about" maxLength={20} onChange={(e) => { setabout(e.target.value) }} value={about} name='about' placeholder="About" aria-describedby="nameHelp" />
                     </div>
-                    <div className={`d-flex justify-content-start rounded-3 p-2 bg-body-tertiary `}>
-                      <div>
-                        <p className="small text-muted mb-1">Notes</p>
-                        <p className="mb-0">hi </p>
-                      </div>
-                      </div>
-                      <div className="d-flex pt-1">
+                    <Info_User_Projects/>
+                      <div className="d-flex ">
                       <button type="button" onClick={handelUpdate} data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary me-1 flex-grow-1">{Update_user?"Cancle":"Edit"}</button>
                       {Update_user && <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-success me-1 flex-grow-1">Save</button>}
                     </div>
                     </form>
                     </div>:<div><h5 className={`mb-1 ${theme === "light" ? "" : "c-w"}`}>{Data ? Data.name : ""}</h5>
                     <p className={`mb-2 pb-1 ${theme === "light" ? "" : "c-w"}`}>{Data ? Data.about : ""}</p>
-                    <div className={`d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary m-b-4}`}>
-                      <div>
-                        <p className="small text-muted mb-1">Notes</p>
-                        <p className="mb-0">hi </p>
-                      </div>
-                      </div>
+                      <Info_User_Projects/>
                       <div className="d-flex pt-1">
                       <button  onClick={handelUpdate} type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-primary me-1 flex-grow-1">{Update_user?"Cancle":"Edit"}</button>
                       {Update_user && <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-outline-success me-1 flex-grow-1">Save</button>}
