@@ -1,4 +1,4 @@
-import React,{ useRef } from 'react'
+import React,{ useRef,useState } from 'react'
 import { useContext } from 'react'
 import AppContext from '../Context/AppContext'
 import { NavLink } from 'react-router-dom'
@@ -9,24 +9,46 @@ function Project_Element(props) {
     /////// to Ref the Edit Modal
     const inputRef = useRef();
 
+    /////// Getting the date when the task is completed
+    const current_date = new Date()
+    const date = current_date.toDateString()
+
+    /////// State to store the Completed Task and Pending Task
+    const [Completed_Task, setCompleted_Task] = useState(props.completed_task)
+
+    const [Pending_Task, setPending_Task] = useState(props.pending_task)
+
     //////// Getting theme from context to change the theme of the component
-    const { theme, DeleteProject } = useContext(AppContext)
+    const { theme, DeleteProject,UpdateProject } = useContext(AppContext);
 
     /////// Function to handle the task completed , When we click on Checkbox the task will be completed
-    const handelTaskCompleted = (e) => {
+    const handelTaskCompleted = (e,id) => {
         const Task_Got_Complted = e.target.parentElement
         Task_Got_Complted.style.width = "24px"
-        setTimeout(() => { Task_Got_Complted.style.display = "none" }, 2000)
+        setTimeout(() => { 
+            Task_Got_Complted.style.display = "none";
+            Completed_Task.push({ Title: Task_Got_Complted.innerText, Completed_At: date });
+            Pending_Task.splice(id, 1)
+            setCompleted_Task([...Completed_Task])
+        setPending_Task([...Pending_Task])
+        UpdateProject(props.project_id, props.project_name, props.project_link, Pending_Task,Completed_Task)
+        }, 2000)
+        
+
     }
 
     /////// Function to handle the delete of the completed task , When we click on delete icon the task will be deleted
-    const handeldeleteCompletedTask = (e) => {
+    const handeldeleteCompletedTask = (e,id) => {
         const Completed_Task_item = e.target.nextSibling
         Completed_Task_item.style.display = "block"
         Completed_Task_item.style.backdropFilter = "blur(50px)" ////// Using backdropFilter to make the animation smooth
         Completed_Task_item.style.opacity = "1" ////// Using opacity tom make the animation smooth
         const Completed_Task_item_Parent = e.target.parentElement
-        setTimeout(() => { Completed_Task_item_Parent.style.display = "none" }, 1000) ////// To hide the task after the element deleted
+        setTimeout(() => { Completed_Task_item_Parent.style.display = "none" ;
+        Completed_Task.splice(id, 1)
+        setCompleted_Task([...Completed_Task])
+        UpdateProject(props.project_id, props.project_name, props.project_link, Pending_Task,Completed_Task)
+        }, 1000) ////// To hide the task after the element deleted
     }
 
     /////// Function to handle the toggle of the task , When we click on the toggle button the task will be toggled form pending to completed and vice versa
@@ -67,6 +89,7 @@ function Project_Element(props) {
     const handelProjectDelete = (id) => {
         DeleteProject(id)
     }
+
     return (
         <div>
             <Modal_to_Edit_Project ref={inputRef} modal_No={props.card_no} Project_id={props.project_id} Title={props.project_name} Pending_Task={props.pending_task} Link={props.project_link}/>
@@ -94,10 +117,11 @@ function Project_Element(props) {
                         {/* //////// List of Pending Task */}
                         <ul className="list-group list-group-flush styl-flx">
 
+                        {Pending_Task.length === 0 && <h4 style={{ margin: "15px 0px 0px 5px" }} className={`${theme === "light" ? "" : "c-w"}`}>All Task Completed</h4>}
                             {/* //////// Generating list of Pending Task */}
-                            {props.pending_task.map((task, index) => {
+                            {Pending_Task.map((task, index) => {
                                 return <li key={index} className={`list-group-item Pending-Task-List-item styl-flx ${theme === "light" ? "" : "c-w"} ${theme === "light" ? "" : "c-w bg-d"}`}>
-                                    <input onClick={handelTaskCompleted} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                    <input  onChange={(e) => handelTaskCompleted(e, index)} className="form-check-input pending-task-checkbox" type="checkbox"/>
                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                         {task.Title}
                                     </label>
@@ -115,13 +139,13 @@ function Project_Element(props) {
 
                             {/* //////// Generating list of Completed Task */}
                             {
-                                props.completed_task.map((task, index) => {
+                                Completed_Task.map((task, index) => {
                                     return <li key={index} className={` list-group-item Completed_Task_items w100 styl-flx ${theme === "light" ? "" : "c-w"} ${theme === "light" ? "" : "c-w bg-d"}`} style={{ paddingLeft: "0px" }}>
                                         <div className='d-i-b'>
                                             <p className='m0p0'>{task.Title}</p>
                                             <div id="emailHelp" className={`form-text ${theme === "light" ? "" : "c-wheat"}`} >Completed on {task.Completed_At}</div>
                                         </div>
-                                        <i onClick={handeldeleteCompletedTask} className="fa-regular fa-trash-can icon"></i>
+                                        <i onClick={(e)=>{handeldeleteCompletedTask(e,index)}} className="fa-regular fa-trash-can icon"></i>
                                         <div className="overlay"></div>
                                     </li>
 

@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef } from 'react'
+import React, { forwardRef, useEffect, useRef } from 'react'
 import { useContext } from 'react'
 import AppContext from '../Context/AppContext'
 import { useState } from 'react'
@@ -16,7 +16,11 @@ const Modal_to_Edit_Project = forwardRef((props, ref) => {
     ///// Getting theme from context to change the theme of the component
     const { theme, UpdateProject } = useContext(AppContext)
 
-
+//    useEffect(() => {
+//     console.log("hi")
+//     Task_details_.push({ Title: "" })
+//     setTask_details_([...Task_details_])
+//    }, [])
 
     /////// Function to handle the adding of the task , When we click on the add button the new task box will be added
     const Task_adding_function = () => {
@@ -24,7 +28,6 @@ const Modal_to_Edit_Project = forwardRef((props, ref) => {
         ///// variable to track the new add task box
         let task_no = Task_details_.length
         
-        Task_details_.push({ Title: "" })
         let task_box_ = document.querySelector(`.Edit-task-box-${props.modal_No}${task_no} .task-add-btn`)
         task_no += 1
         task_box_.classList.add('none')
@@ -73,7 +76,7 @@ const Modal_to_Edit_Project = forwardRef((props, ref) => {
         console.log(Task_details_)
         console.log(Project_Title)
         console.log(Task_Link)
-        const its_Edited = UpdateProject(props.project_id, Project_Title, Task_Link, Task_details_)
+        const its_Edited = UpdateProject(props.Project_id, Project_Title, Task_Link, Task_details_,[])
         if (its_Edited) {
             submitButton.removeAttribute("disabled")
             ref_.current.click()
@@ -89,7 +92,7 @@ const Modal_to_Edit_Project = forwardRef((props, ref) => {
     ///////// to handle the input of the task
     const handel_Task_input = (index, value) => {
         Task_details_[index].Title = value
-        setTask_details_(Task_details_)
+        setTask_details_([...Task_details_])
     }
 
     return (

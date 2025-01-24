@@ -301,10 +301,24 @@ useEffect(()=>{fetch_Projects();
 }
 
   //////////// Updating A Project ////////////
-  const UpdateProject = async (id,Title,link, Pending_Task) => {
+  const UpdateProject = async (id,Title,link, Pending_Task,Completed_Task) => {
     try {
-      console.log("hi")
-      return true
+      const url = `${import.meta.env.VITE_HOST_BASE_URLL}project/updateProject`;
+      const data = { link: link, Pending_Task: Pending_Task ,Title:Title,project_id:id,Completed_Task:Completed_Task};
+      const config = {
+        headers: { 'Content-Type': 'application/json',
+          "token":localStorage.getItem('token')
+         }
+      }
+      if(localStorage.getItem('token')){
+        const resp = await axios.put(url,data,config);
+        if(resp.data.status){
+          setProjects(Projects.map((project)=>project._id===id?resp.data.project:project))
+          Showalert("Project Updated Successfully","success")
+          return true
+        }
+      }
+
     } catch (error) {
       console.log(error)
       Showalert(error.message, "danger")
@@ -312,11 +326,6 @@ useEffect(()=>{fetch_Projects();
     }
 
   }
-
-
-  ///////////// A task got completed ////////////
- const Mange_Completed_Task = async (id,Pending_Task,Completed_Task) => {
- }
 
   return (
     <AppContext.Provider value={{ GoogleLogin, Login, SignUp, alert, Showalert, Data,setData,Loggedin ,Authenticated,ResendOTP,VerifyOTP,theme,setTheme,Projects,setProjects,DeleteProject,AddProject,UpdateProject}}>
