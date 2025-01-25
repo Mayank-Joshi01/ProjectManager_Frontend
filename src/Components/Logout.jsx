@@ -7,6 +7,7 @@ function Logout() {
     const {setData,Data} = useContext(AppContext)
     let navigate = useNavigate();
     useEffect(() => {
+        console.log("Logout")
         localStorage.removeItem("token")
         setData(null)
         if(localStorage.getItem("img")){

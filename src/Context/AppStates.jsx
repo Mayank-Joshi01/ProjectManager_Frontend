@@ -23,6 +23,7 @@ const AppStates = (props) => {
 
   useEffect(()=>{Loggedin();
   },[Authenticated])
+
 useEffect(()=>{fetch_Projects();
 },[])
 
@@ -198,20 +199,26 @@ useEffect(()=>{fetch_Projects();
       const config = {
         headers: { 'Content-Type': 'application/json' },
       }
+      console.log("user trying to login no token available ")
+      console.log(localStorage.getItem("token"))
       if(localStorage.getItem('token')){
+        console.log("user trying to login token available ")
         const resp = await axios.post(url,data,config);
+        
+ 
         if(resp.data.status){
+          console.log("User Loggined sucessfully")
           setAuthenticated(true)
           setData(resp.data.data)
           return 
         }
       }
-      setAuthenticated(false)
-      setData(null)
+      
     }catch(error){
       console.log(error)
       Showalert(error.message,"danger")
       setAuthenticated(false)
+      setData(null)
     }
   }
 
