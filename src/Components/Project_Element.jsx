@@ -100,7 +100,7 @@ function Project_Element(props) {
                     {/* //////// Card Header , Contain the title of the card and the link to vist the Project */}
                     <div className="my-card-header styl-flx">
                         <h5 className="card-title d-i-b">{props.project_name}</h5>
-                        <NavLink to={props.project_link} ><button type="button" className="btn btn-primary">Visit</button></NavLink>
+                        <NavLink to={props.project_link} className="btn btn-primary">Visit</NavLink>
 
                     </div>
 
