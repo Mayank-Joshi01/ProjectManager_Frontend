@@ -204,7 +204,6 @@ useEffect(()=>{fetch_Projects();
       if(localStorage.getItem('token')){
         console.log("user trying to login token available ")
         const resp = await axios.post(url,data,config);
-        
  
         if(resp.data.status){
           console.log("User Loggined sucessfully")
