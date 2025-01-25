@@ -2,6 +2,7 @@ import React from 'react'
 import { useContext ,useState} from 'react';
 import AppContext from '../Context/AppContext';
 import { useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
 /// Login Page
 
@@ -31,7 +32,7 @@ function Login() {
 
   return (
     <div className='container form'>
-      <h1 className={`${theme==="light"?"":"c-w"}`}>Login To Project Manager</h1>
+      <h1 className={`t-a-c ${theme==="light"?"":"c-w"}`}>Login</h1>
       <form onSubmit={handelSubmit}>
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className={`form-label ${theme==="light"?"":"c-w"}`}>Email address</label>
@@ -44,9 +45,10 @@ function Login() {
         </div>
         <button type="submit" className="btn btn-primary w100">Login</button>
       </form>
-      <hr />
-      <button className='w100 btn btn-primary' onClick={GoogleLogin}><img src="https://img.icons8.com/?size=100&id=17949&format=png&color=000000" style={{ height: "30px" }} className='mx-1' alt="" /> Login With Google</button>
-
+      <button className='w100 btn btn-primary' style={{marginTop:"10px",height:"38px"}} onClick={GoogleLogin}><img src="/images/google-symbol.png" style={{ height: "25px" }} className='mx-1' alt="" /> Login With Google</button>
+      <hr style={{border:`${theme==="light"?"":"1px solid white"}`}}/>
+      <p className={`form-text ${theme==="light"?"":"c-w"}`} >Dont have an Account?</p>
+      <NavLink className="btn btn-outline-primary w100" to="/Signup/">SignUp</NavLink>
 
     </div>
   )

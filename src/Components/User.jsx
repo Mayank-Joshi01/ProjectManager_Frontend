@@ -4,16 +4,18 @@ import { useContext } from 'react';
 import AppContext from '../Context/AppContext';
 import axios from 'axios';
 import { Buffer } from 'buffer';
+import { NavLink } from 'react-router-dom';
 
 function User() {
 
-
+  /////// Getting Data from Context //////////
   const { Data, theme, Showalert, setData ,Projects} = useContext(AppContext)
 
-  console.log(Projects.length)
-
+  /////// Setting User Data //////////
+  ////// Name and About
   const [Name, setName] = useState(Data.name)
   const [about, setabout] = useState(Data.about)
+
 
 
   /////////Image Update /////////
@@ -22,7 +24,7 @@ function User() {
   const [value, setValue] = useState({ text: "", btn: "" })
   const values = useRef({ text: "", btn: "" });
 
-  /// Setting users IMage
+  /// Setting user Image 
   const [imgUrl, setimgUrl] = useState("https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png")
 
   //// Storing image 
@@ -63,7 +65,6 @@ function User() {
 
   /// handeling Change in Image
   const handelChange = (e) => {
-    console.log(e.target.files[0])
     const files = e.target.files[0];
     values.current.text = "save";
     values.current.btn = "visible";
@@ -73,7 +74,7 @@ function User() {
   }
 
 
-  /////// to conver buffer to base64
+  /////// to convert buffer to base64
   const bufferToBase64 = (buffer) => {
     return buffer.toString('base64')
   };
@@ -84,7 +85,8 @@ function User() {
     try {
       const url = `${import.meta.env.VITE_HOST_BASE_URLL}user/update_user_info`
       const config = {
-        ////// Make Sure Headers Should not Contain Content-Type : Application/Json
+        ////// Note : Make Sure Headers Should not Contain Content-Type : Application/Json 
+        //////        since we are sending multipart/form-data
         headers: {
           "token": localStorage.getItem('token')
         },
@@ -120,7 +122,7 @@ function User() {
     values.current.btn = "";
   }
 
-  ///// Update User INfo /////////
+  ///// Update User Info /////////
 
   const [Update_user, setUpdate_user] = useState(false)
 
@@ -129,8 +131,6 @@ function User() {
   }
   const Update_User = async (e) => {
     e.preventDefault();
-    console.log("Name", Name)
-    console.log("About", about)
     const formData = new FormData();
     formData.append('name', Name);
     formData.append('about', about);
@@ -141,6 +141,7 @@ function User() {
 
 
   ////////Password Update ///////////
+  
   const handelPasswordUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -166,18 +167,20 @@ function User() {
   }
 
 
-  //// handeling password visibility
-  const [password_visiblity, setpassword_visiblity] = useState(false)
+  //// Handeling password visibility
 
+  const password_visiblity = useRef(false)
+  //// Note : using useRef since it updates instantally and dont re render the component
 
   const password_icon = document.getElementsByClassName('icon');
 
-  /// functsion to toggle password visibility
+  /// function to toggle password visibility
+
   const togglePassword = () => {
     const password_input = document.getElementById('password')
     password_icon[0].classList.toggle('none')
     password_icon[1].classList.toggle('none')
-    if (password_visiblity) {
+    if (password_visiblity.current) {
       password_input.type = "text"
     }
     else {
@@ -191,6 +194,7 @@ function User() {
 
 ///////// Info about User Projects /////////
 
+////// Creating a componenet since it is used multiple times
 const Info_User_Projects = () => {
   return <div className={`d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary m-b-4}`}>
   <div>
@@ -250,16 +254,18 @@ const Info_User_Projects = () => {
 
           {/* password update */}
 
-          <div className={`password-container styl-flx col-md-9 col-lg-7 col-xl-6 ${theme === "light" ? "bg-dw" : "bg-b"}`} >
+          <div className={`password-container col-md-9 col-lg-7 col-xl-6 ${theme === "light" ? "bg-dw" : "bg-b"}`}  style={{display:"flex"}}>
 
-            <div className={`password-update styl-flx ${password ? "w100" : ""}`}>
+            <div className={`password-update w100`}>
 
-              <p onClick={() => { setpassword(!password) }} className={`${theme === "light" ? "" : "c-w"} h100`}>Update Password</p>
+              <p onClick={(e) => { if(!password){e.target.parentElement.parentElement.style.height="100px";setpassword(!password)}
+              else{e.target.parentElement.parentElement.style.height="50px"; setTimeout(() => { setpassword(!password) }, 1000) }
+                                  }} style={{display:"block"}} className={`${theme === "light" ? "" : "c-w"}`}>Update Password</p>
 
               {password && <form onSubmit={handelPasswordUpdate}>
                 <div className="password-box styl-flx">
                   <input type="password" id="password" style={{ lineHeight: "20px" }} required minLength={8} placeholder='Enter new password' />
-                  <span onClick={() => { setpassword_visiblity(!password_visiblity); togglePassword() }}>
+                  <span onClick={() => {password_visiblity.current=!password_visiblity.current; togglePassword() }}>
                     <i className="fa-solid fa-eye c-b icon "></i>
                     <i className="fa-solid fa-eye-slash none icon"></i>
                   </span>
@@ -270,6 +276,10 @@ const Info_User_Projects = () => {
             </div>
           </div>
 
+{/* //////// Log Out Button ///////// */}
+<div>
+<NavLink className="btn btn-outline-primary w100"  style={{marginTop:"10px"}}to="/logout/">Logout</NavLink>
+</div>
         </div>
       </section>}
 

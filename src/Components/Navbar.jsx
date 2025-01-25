@@ -30,7 +30,9 @@ function Navbar() {
   // Handling the mode of the website
   const handelMode = () => {
     var e = document.getElementById("mode-container");
-    e.children[0].classList.toggle("none"), e.children[1].classList.toggle("none"),document.body.classList.toggle("bg-d");
+    e.children[0].classList.toggle("none"); 
+    e.children[1].classList.toggle("none");
+    document.body.classList.toggle("bg-d");
   if(theme === "light"){
     setTheme("dark")}
     else if(theme==="dark"){
@@ -57,8 +59,8 @@ function Navbar() {
       <nav className={`navbar navbar-expand-lg ${theme==="light"?"bg-body-tertiary":"bg-dark"}`}>
         <div className="container-fluid">
           <NavLink className={`navbar-brand ${theme==="light"?"":"c-w"}`} to="/" >Task Manager</NavLink>
-          <button className={`navbar-toggler ${theme==="light"?"":"bg-w"}`} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
+          <button className={`navbar-toggler ${theme==="light"?"":"bg-w"}`} style={{padding:"2px 5px 2px 5px"}} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon" style={{height:"1em",width:"1em"}}></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -88,19 +90,16 @@ function Navbar() {
       <label htmlFor="mode-checkbox">
         <div className={`mode ${theme==="light"?"":"c-w"}`} id="mode-container" onClick={handelMode}>
           {/* <i className="fa-solid fa-sun mode-icon" id='light-mode' data-visible="true"></i> */}
-          <ion-icon name="sunny-outline" className="son-icon fa-solid fa-sun mode-icon" id='light-mode' data-visible="true"></ion-icon>
-          <i className={`fa-solid fa-moon mode-icon none`} id='dark-mode' data-visible="false"></i>
+          <ion-icon name="sunny-outline" class="son-icon mode-icon none" id='light-mode' data-visible="true"></ion-icon>
+          <i className={`fa-solid fa-moon mode-icon`} id='dark-mode' data-visible="false"></i>
         </div>
       </label>
 
 
 {Authenticated?<div className="user-nav">
   <NavLink to="/user/">{img?<img className='user-img' src={img} loading="lazy" alt="user"  />:<i className="fa-solid fa-circle-user user-nav-icon"></i>}</NavLink>
-      <NavLink className="btn btn-outline-primary" to="/logout/">Logout</NavLink>
-      </div>:<div className="aut-btn">
-        <NavLink className="btn btn-outline-primary" to="/login/">Login</NavLink>
-        <NavLink className="btn btn-outline-primary" to="/Signup/">SignUp</NavLink>
-      </div>
+      {/* <NavLink className="btn btn-outline-primary" to="/logout/">Logout</NavLink> */}
+      </div>:<></> 
 }
       </div>
     </div>

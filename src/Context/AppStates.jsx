@@ -22,7 +22,7 @@ const AppStates = (props) => {
 
 
   useEffect(()=>{Loggedin();
-  },[Authenticated])
+  },[Authenticated,localStorage.getItem('token')])
 
 useEffect(()=>{fetch_Projects();
 },[])

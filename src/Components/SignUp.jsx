@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import AppContext from '../Context/AppContext'
 import { useContext, useState } from 'react'
-import { use } from 'react';
+import { NavLink } from 'react-router-dom'
 
 // SignUp Page 
 
@@ -174,8 +174,8 @@ function SignUp() {
                 <input type="number" required name='d6' disabled />
               </div>
               <div className="otp-time">
-                <p className={`inline-block resend-otp  ${time_left > 0 ? "disabled" : "enabled"}`} onClick={handelOTP_Resend} >RESEND OTP</p>
-                <p className='inline-block'> in <b>00:{time_left}</b></p>
+                <p className={`d-i-b  resend-otp  ${time_left > 0 ? "disabled" : "enabled"}`} onClick={handelOTP_Resend} >RESEND OTP</p>
+                <p className='d-i-b '> in <b>00:{time_left}</b></p>
               </div>
               <button className="btn btn-primary w100" type='submit' disabled>Verify OTP</button>
 
@@ -188,7 +188,7 @@ function SignUp() {
       {/* ////// SignUp Page ////// */}
       <div className='container form'>
 
-        <h1 className={`${theme==="light"?"":"c-w"}`}>SignUp To Project Manager</h1>
+        <h1 className={` t-a-c ${theme==="light"?"":"c-w"}`}>SignUp</h1>
         <form onSubmit={handelSubmit}>
           <div className="mb-3">
             <label htmlFor="name" className={`form-label ${theme==="light"?"":"c-w"}`}>Username</label>
@@ -203,12 +203,12 @@ function SignUp() {
             <label htmlFor="exampleInputPassword1" className={`form-label ${theme==="light"?"":"c-w"}`} >Password</label>
             <input type="password" className="form-control" minLength={8} required={true} onChange={handelChange} name="password" id="exampleInputPassword1" />
           </div>
-          <button type="submit" className="btn btn-primary w100">SignUp</button>
+          <button type="submit" className="btn btn-primary w100" >SignUp</button>
         </form>
-        <hr />
-        <button className='w100 btn btn-primary' onClick={GoogleLogin}><img src="https://img.icons8.com/?size=100&id=17949&format=png&color=000000" style={{ height: "30px" }} className='mx-1' alt="" /> SignUp With Google</button>
-
-
+        <button className='w100 btn btn-primary' style={{marginTop:"10px",height:"38px"}}  onClick={GoogleLogin}><img src="/images/google-symbol.png" style={{ height: "25px" }} className='mx-1' alt="" /> SignUp With Google</button>
+      <hr style={{border:`${theme==="light"?"":"1px solid white"}`}}/>
+      <p className={`form-text ${theme==="light"?"":"c-w"}`} >Already have an Account?</p>
+      <NavLink className="btn btn-outline-primary w100" to="/login/">Login</NavLink>
       </div>
     </>
   )
