@@ -1,8 +1,9 @@
 import { useGoogleLogin } from '@react-oauth/google'
 import AppContext from './AppContext'
 import axios from 'axios'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useState, useEffect } from 'react'
+
 
 const AppStates = (props) => {
 
@@ -20,6 +21,14 @@ const AppStates = (props) => {
   //// Projects State
   const [Projects, setProjects] = useState([])
 
+///// To handel Progress Bar
+  const [progress, setProgress] = useState(0)
+
+  //// for continous progress bar
+  const intervalRef = useRef(null);
+
+  //// to disable all buttons and input once login is clicked
+  const Disable = useRef(false)
 
   useEffect(()=>{Loggedin();
   },[Authenticated,localStorage.getItem('token')])
@@ -38,10 +47,23 @@ useEffect(()=>{fetch_Projects();
     }, 2000);
   }
 
+  ////// Loading bar function to increase it's length linearly 
+  const LodingBar = ()=>{intervalRef.current = setInterval(() => {
+    setProgress((prev) => {
+      if (prev >= 95) {
+        clearInterval(intervalRef.current); // Stop incrementing close to 100%
+        return prev;
+      }
+      return prev + 1; // Increment progress linearly
+    });
+  }, 50);} // Increase progress every 50ms
+
+
   /// creating instance of GoogleLogin Popup
   const GoogleLogin = useGoogleLogin({
 
     onSuccess: async (res) => {
+      LodingBar()
 
       if (res.access_token) {
 
@@ -56,7 +78,8 @@ useEffect(()=>{fetch_Projects();
         const resp = await axios.post(url, data, config);
 
         if(resp.data.status){
-
+          clearInterval(intervalRef.current)
+      setProgress(100)
         /// Updating data state
         setData(resp.data);
         localStorage.setItem('token', resp.data.token)
@@ -70,6 +93,9 @@ useEffect(()=>{fetch_Projects();
      
     },
     onError: (error) => {
+      clearInterval(intervalRef.current)
+      Disable.current=false
+      setProgress(100)
       console.log(error)
       Showalert("Invalid Credentials", "danger")
     }
@@ -81,7 +107,7 @@ useEffect(()=>{fetch_Projects();
   const SignUp = async (user) => {
 
     try {
-
+      LodingBar();
       const url = `${import.meta.env.VITE_HOST_BASE_URLL}auth/signup`;
       const data = { name: user.name, email: user.email, password: user.password };
       const config = {
@@ -92,8 +118,9 @@ useEffect(()=>{fetch_Projects();
       const resp = await axios.post(url, data, config);
 
       if (resp.data.status) {
+        clearInterval(intervalRef.current)
+      setProgress(100)
         Showalert(`OTP Sent Sucessfully to ${user.email}`, "success")
-
         /// Updating data state
         setData(resp.data);
         console.log(resp.data)
@@ -101,6 +128,9 @@ useEffect(()=>{fetch_Projects();
       }
     }
     catch (error) {
+      clearInterval(intervalRef.current)
+      setProgress(100)
+      Disable.current=false
       console.log(error)
       Showalert("Invalid Credentials", "danger")
     }
@@ -110,6 +140,7 @@ useEffect(()=>{fetch_Projects();
 
   const Login = async (user) => {
     try {
+      LodingBar();
       const url = `${import.meta.env.VITE_HOST_BASE_URLL}auth/login`;
       const data = { name: user.name, email: user.email, password: user.password };
       const config = {
@@ -120,6 +151,8 @@ useEffect(()=>{fetch_Projects();
       const resp = await axios.post(url, data, config);
 
       if (resp.data.status) {
+        clearInterval(intervalRef.current)
+        setProgress(100)
         localStorage.setItem('token', resp.data.token)
         Showalert(`Welcome ${resp.data.data.name} to Task Manager, Logined Sucessfully`, "success")
 
@@ -129,6 +162,9 @@ useEffect(()=>{fetch_Projects();
       }
 
     } catch (error) {
+      clearInterval(intervalRef.current)
+      setProgress(100)
+      Disable.current=false
       console.log(error);
       Showalert("Invalid Credentials", "danger")
     }
@@ -334,7 +370,7 @@ useEffect(()=>{fetch_Projects();
   }
 
   return (
-    <AppContext.Provider value={{ GoogleLogin, Login, SignUp, alert, Showalert, Data,setData,Loggedin ,Authenticated,ResendOTP,VerifyOTP,theme,setTheme,Projects,setProjects,DeleteProject,AddProject,UpdateProject}}>
+    <AppContext.Provider value={{ GoogleLogin,Disable, progress,setProgress,Login, SignUp, alert, Showalert, Data,setData,Loggedin ,Authenticated,ResendOTP,VerifyOTP,theme,setTheme,Projects,setProjects,DeleteProject,AddProject,UpdateProject}}>
       {props.children}
     </AppContext.Provider>
   );

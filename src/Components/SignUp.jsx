@@ -20,7 +20,7 @@ function SignUp() {
   }
 
   /// Importing GoogleLogin from AppContext
-  const { GoogleLogin, SignUp, Showalert,ResendOTP,VerifyOTP,Data,theme } = useContext(AppContext)
+  const { GoogleLogin, SignUp, Showalert,ResendOTP,VerifyOTP,Data,theme,Disable } = useContext(AppContext)
 
 
   ///////////////// OTP  /////////////////////////
@@ -149,6 +149,7 @@ function SignUp() {
     console.log(user);
     e.preventDefault();
     SignUp(user);
+    Disable.current=true;
     openOtpPage();
     
   }
@@ -192,20 +193,20 @@ function SignUp() {
         <form onSubmit={handelSubmit}>
           <div className="mb-3">
             <label htmlFor="name" className={`form-label ${theme==="light"?"":"c-w"}`}>Username</label>
-            <input type="text" className="form-control" required={true} id="name" onChange={handelChange} name='name' placeholder="Name" aria-describedby="nameHelp" />
+            <input disabled={Disable.current} type="text" className="form-control" required={true} id="name" onChange={handelChange} name='name' placeholder="Name" aria-describedby="nameHelp" />
           </div>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className={`form-label ${theme==="light"?"":"c-w"}`}>Email address</label>
-            <input type="email" className="form-control" required={true} id="exampleInputEmail1" onChange={handelChange} name="email" placeholder="Email" aria-describedby="emailHelp" />
+            <input disabled={Disable.current} type="email" className="form-control" required={true} id="exampleInputEmail1" onChange={handelChange} name="email" placeholder="Email" aria-describedby="emailHelp" />
             <div id="emailHelp" className={`form-text ${theme==="light"?"":"c-w"}`}>We'll never share your email with anyone else.</div>
           </div>
           <div className="mb-3">
             <label htmlFor="exampleInputPassword1" className={`form-label ${theme==="light"?"":"c-w"}`} >Password</label>
-            <input type="password" className="form-control" minLength={8} required={true} onChange={handelChange} name="password" id="exampleInputPassword1" />
+            <input disabled={Disable.current} type="password" className="form-control" minLength={8} required={true} onChange={handelChange} name="password" id="exampleInputPassword1" />
           </div>
-          <button type="submit" className="btn btn-primary w100" >SignUp</button>
+          <button disabled={Disable.current} type="submit" className="btn btn-primary w100" >SignUp</button>
         </form>
-        <button className='w100 btn btn-primary' style={{marginTop:"10px",height:"38px"}}  onClick={GoogleLogin}><img src="/images/google-symbol.png" style={{ height: "25px" }} className='mx-1' alt="" /> SignUp With Google</button>
+        <button disabled={Disable.current} className='w100 btn btn-primary' style={{marginTop:"10px",height:"38px"}}  onClick={()=>{GoogleLogin;Disable.current=true}}><img src="/images/google-symbol.png" style={{ height: "25px" }} className='mx-1' alt="" /> SignUp With Google</button>
       <hr style={{border:`${theme==="light"?"":"1px solid white"}`}}/>
       <p className={`form-text ${theme==="light"?"":"c-w"}`} >Already have an Account?</p>
       <NavLink className="btn btn-outline-primary w100" to="/login/">Login</NavLink>

@@ -1,4 +1,4 @@
-import React,{ useState } from 'react'
+import React from 'react'
 import './App.css'
 import { BrowserRouter,Route,Routes,Navigate } from 'react-router-dom'
 import Home from './Components/Home';
@@ -15,10 +15,11 @@ import AppContext from './Context/AppContext';
 import Logout from './Components/Logout';
 import RefreshHandler from './Components/RefreshHandler';
 import Reset_Password from './Components/Reset_Password';
+import LoadingBar from 'react-top-loading-bar'
 
 function App() {
 
-  const {Authenticated} = useContext(AppContext)
+  const {Authenticated,progress,setProgress} = useContext(AppContext)
 
   const IsLogined = ({element})=>{
     if(Authenticated){
@@ -33,6 +34,12 @@ function App() {
     <div style={{position:'relative' , minHeight:"100vh"}}>
      <BrowserRouter>
      <Navbar/>
+     <LoadingBar
+        color='#f11946'
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+        style={{"marginTop":"52px"}}
+      />
      <RefreshHandler/>
      <Alert/>
      <div>
