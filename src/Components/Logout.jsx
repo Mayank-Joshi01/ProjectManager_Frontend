@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import AppContext from '../Context/AppContext';
 
 function Logout() {
-    const {setData,Data} = useContext(AppContext)
+    const {setData,Data,Disable} = useContext(AppContext)
     let navigate = useNavigate();
     useEffect(() => {
-        console.log("Logout")
+        Disable.current=false
         localStorage.removeItem("token")
         setData(null)
         if(localStorage.getItem("img")){

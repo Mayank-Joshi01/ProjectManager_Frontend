@@ -59,7 +59,7 @@ function Navbar() {
       <nav className={`navbar navbar-expand-lg ${theme==="light"?"bg-body-tertiary":"bg-dark"}`}>
         <div className="container-fluid">
           <NavLink className={`navbar-brand ${theme==="light"?"":"c-w"}`} to="/" >Task Manager</NavLink>
-          <button className={`navbar-toggler ${theme==="light"?"":"bg-w"}`} style={{padding:"2px 5px 2px 5px"}} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button className={`navbar-toggler ${theme==="light"?"":"bg-w"}`} style={{padding:"5px 8px"}} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" style={{height:"1em",width:"1em"}}></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">

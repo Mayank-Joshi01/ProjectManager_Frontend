@@ -115,6 +115,7 @@ text-align: center;
     cursor: pointer;
     background-color: rgb(156, 156, 156);
     border-radius: 50%;
+    margin-right: 5px;
 }
 
 i{
@@ -292,7 +293,7 @@ input[type="checkbox"]:checked~label .mode ion-icon{
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    margin: 0px 5px;
+    margin: 0px 5px 0px 0px;
 }
 
 /* /////// About Page //////// */
@@ -661,7 +662,7 @@ width: 78%;
 
 @media(max-width: 990px) {
     .nav-user {
-        right: 38px;
+        right: 40px;
     }
 
     .form {
