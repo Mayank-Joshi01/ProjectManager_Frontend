@@ -45,12 +45,10 @@ function Navbar() {
   useEffect(()=>{
     setTimeout(()=>{
     if(localStorage.getItem("img")){
-      console.log("hoo")
       setImg(localStorage.getItem("img"))
     }},100)
   },[localStorage.getItem("img")])
 
-  
   return (
     <div className="navbar-container">
 
@@ -89,7 +87,6 @@ function Navbar() {
       <input type="checkbox" name="mode-checkbox" id="mode-checkbox" className='none' onChange={(e)=>{console.log("changed to : ",e.target.value)}} />
       <label htmlFor="mode-checkbox">
         <div className={`mode ${theme==="light"?"":"c-w"}`} id="mode-container" onClick={handelMode}>
-          {/* <i className="fa-solid fa-sun mode-icon" id='light-mode' data-visible="true"></i> */}
           <ion-icon name="sunny-outline" class="son-icon mode-icon none" id='light-mode' data-visible="true"></ion-icon>
           <i className={`fa-solid fa-moon mode-icon`} id='dark-mode' data-visible="false"></i>
         </div>
@@ -98,7 +95,6 @@ function Navbar() {
 
 {Authenticated?<div className="user-nav">
   <NavLink to="/user/">{img?<img className='user-img' src={img} loading="lazy" alt="user"  />:<i className="fa-solid fa-circle-user user-nav-icon"></i>}</NavLink>
-      {/* <NavLink className="btn btn-outline-primary" to="/logout/">Logout</NavLink> */}
       </div>:<></> 
 }
       </div>

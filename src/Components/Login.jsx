@@ -15,7 +15,6 @@ function Login() {
     // To handel change in input tag
     const handelChange = (e)=>{
       setuser({...user,...{[e.target.name]:e.target.value}})
-      console.log(user);
     }
 
   /// Importing GoogleLogin from AppContext
@@ -25,7 +24,6 @@ function Login() {
 
   // To handel form submission
   const handelSubmit = (e)=>{
-    console.log(user);
     e.preventDefault();
     Disable.current=true
     Login(user);
@@ -47,7 +45,7 @@ function Login() {
         </div>
         <button type="submit" disabled={Disable.current} className="btn btn-primary w100">Login</button>
       </form>
-      <button className='w100 btn btn-primary' style={{marginTop:"10px",height:"38px"}} disabled={Disable.current} onClick={()=>{{GoogleLogin();Disable.current=true}}}><img src="/images/google-symbol.png" style={{ height: "25px" }} className='mx-1' alt="" /> Login With Google</button>
+      <button className='w100 btn btn-primary' style={{marginTop:"10px",height:"38px"}} disabled={Disable.current} onClick={()=>{{GoogleLogin()}}}><img src="/images/google-symbol.png" style={{ height: "25px" }} className='mx-1' alt="" /> Login With Google</button>
       <hr style={{border:`${theme==="light"?"":"1px solid white"}`}}/>
       <p className={`form-text ${theme==="light"?"":"c-w"}`} >Dont have an Account?</p>
       <NavLink className="btn btn-outline-primary w100" to="/Signup/">SignUp</NavLink>

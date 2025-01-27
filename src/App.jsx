@@ -15,23 +15,24 @@ import AppContext from './Context/AppContext';
 import Logout from './Components/Logout';
 import RefreshHandler from './Components/RefreshHandler';
 import Reset_Password from './Components/Reset_Password';
-import LoadingBar from 'react-top-loading-bar'
+import LoadingBar from 'react-top-loading-bar';
+import NotLoginedPage from './Components/NotLoginedPage';
 
 function App() {
 
-  const {Authenticated,progress,setProgress} = useContext(AppContext)
+  const {Authenticated,progress,setProgress,Logined} = useContext(AppContext)
 
   const IsLogined = ({element})=>{
-    if(Authenticated){
+    if(Authenticated || Logined.current){
       return element
     }else{
-      return <Navigate to="/login/"/>
+      return <NotLoginedPage/>
     }
 
   }
 
   return (
-    <div style={{position:'relative' , minHeight:"100vh"}}>
+    <div style={{position:'relative' , minHeight:"90.9vh"}}>
      <BrowserRouter>
      <Navbar/>
      <LoadingBar

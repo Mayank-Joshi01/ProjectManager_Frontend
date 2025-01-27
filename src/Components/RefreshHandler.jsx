@@ -5,22 +5,23 @@ import AppContext from '../Context/AppContext'
 
 function RefreshHandler() {
 
-    const {Authenticated,Loggedin} = useContext(AppContext)
+    const {Authenticated,Loggedin,Logined} = useContext(AppContext)
 let navigate = useNavigate()
 let location = useLocation()
 
 useEffect(() => {
+  const checkAuthStatus = async () => {
 
-  console.log(Authenticated)
-    Loggedin();
-    if(!Authenticated && location.pathname !== "/login/" && location.pathname !== "/Signup/" && location.pathname !== "/about/"){
-      console.log("whats wrong")
-        navigate("/login")
-    }
-    else if(Authenticated){ {if(location.pathname === "/login" || location.pathname === "/login/" || location.pathname === "/Signup/"){
-      console.log("whats not wrong")
+    await Loggedin();
+    if (Authenticated || Logined.current){
+      if(location.pathname === "/login" || location.pathname === "/login/" || location.pathname === "/Signup/"){
         navigate("/")
-    }}}},[Authenticated])
+      }
+    }
+  };
+
+  checkAuthStatus();
+}, [Authenticated]);
   return (
     <>
     </>

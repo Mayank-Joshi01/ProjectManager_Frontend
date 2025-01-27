@@ -92,11 +92,9 @@ function User() {
         },
       }
       const resp = await axios.post(url, formData, config)
-      console.log(resp)
       if (resp.status) {
         Showalert(`${resp.data.message}`, "success")
         setData(resp.data.user)
-        console.log(Data)
       }
     }
     catch (error) {
@@ -152,7 +150,6 @@ function User() {
         headers: { 'Content-Type': 'application/json' },
       }
       const resp = await axios.post(url, data, config)
-      console.log(resp)
       if (resp.data.status) {
         Showalert(`Update Link Send to your email ${Data.email} Successfully`, "success")
       }

@@ -16,12 +16,10 @@ function SignUp() {
   // To handel change in input tag
   const handelChange = (e) => {
     setuser({ ...user, ...{ [e.target.name]: e.target.value } })
-    console.log(user);
   }
 
   /// Importing GoogleLogin from AppContext
   const { GoogleLogin, SignUp, Showalert,ResendOTP,VerifyOTP,Data,theme,Disable } = useContext(AppContext)
-
 
   ///////////////// OTP  /////////////////////////
 
@@ -43,7 +41,6 @@ function SignUp() {
   // To handel OTP Resend
   const handelOTP_Resend = () => {
     if (time_left === "00") {
-      console.log("OTP Resend Successfully");
       setTimer();
       ResendOTP(user.email);
     }
@@ -88,7 +85,6 @@ function SignUp() {
           if (index1 <= index2 && prevInput) {
 
             currentInput.value = ""
-            console.log(currentInput.name)
             currentInput.setAttribute('disabled', true)
             prevInput.focus();
           }
@@ -108,8 +104,6 @@ function SignUp() {
 
   // To open OTP Page
   const openOtpPage = () => {
-  
-        // Execute your code
         document.getElementById("otp-page").style.display = "block";
         window.addEventListener("load", () => {
           inputs[0]?.focus();
@@ -119,7 +113,7 @@ function SignUp() {
        
 
   // To handel OTP Value
-  const handelOTP_value = (e) => {
+  const handelOTP_value = async (e) => {
     otp.d1 = e.target.d1.value;
     otp.d2 = e.target.d2.value;
     otp.d3 = e.target.d3.value;
@@ -141,18 +135,27 @@ function SignUp() {
     }
 
     OTP = `${otp.d1}${otp.d2}${otp.d3}${otp.d4}${otp.d5}${otp.d6}`;
-    VerifyOTP(Data.data._id,OTP);
-  }
+   const otpVerification =  await VerifyOTP(Data.data._id,OTP);
+   if(!otpVerification){
+    e.target.d1.classList.add("invalid-otp");
+    e.target.d2.classList.add("invalid-otp");
+    e.target.d3.classList.add("invalid-otp");
+    e.target.d4.classList.add("invalid-otp");
+    e.target.d5.classList.add("invalid-otp");
+    e.target.d6.classList.add("invalid-otp");
+  }}
 
   // To handel form submission
-  const handelSubmit = (e) => {
-    console.log(user);
+  const handelSubmit = async (e) => {
     e.preventDefault();
-    SignUp(user);
     Disable.current=true;
+   const rrrr = await SignUp(user);
+   if(rrrr){
     openOtpPage();
     
-  }
+  }else{
+    Disable.current=false;
+  }}
 
   return (
     <>
@@ -206,10 +209,11 @@ function SignUp() {
           </div>
           <button disabled={Disable.current} type="submit" className="btn btn-primary w100" >SignUp</button>
         </form>
-        <button disabled={Disable.current} className='w100 btn btn-primary' style={{marginTop:"10px",height:"38px"}}  onClick={()=>{GoogleLogin;Disable.current=true}}><img src="/images/google-symbol.png" style={{ height: "25px" }} className='mx-1' alt="" /> SignUp With Google</button>
+        <button disabled={Disable.current} className='w100 btn btn-primary' style={{marginTop:"10px",height:"38px"}}  onClick={()=>{GoogleLogin}}><img src="/images/google-symbol.png" style={{ height: "25px" }} className='mx-1' alt="" /> SignUp With Google</button>
       <hr style={{border:`${theme==="light"?"":"1px solid white"}`}}/>
       <p className={`form-text ${theme==="light"?"":"c-w"}`} >Already have an Account?</p>
       <NavLink className="btn btn-outline-primary w100" to="/login/">Login</NavLink>
+      
       </div>
     </>
   )

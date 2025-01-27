@@ -30,8 +30,11 @@ const AppStates = (props) => {
   //// to disable all buttons and input once login is clicked
   const Disable = useRef(false)
 
-  useEffect(()=>{Loggedin();
-  },[Authenticated,localStorage.getItem('token')])
+  //// To set token as variable and since it will update during the run time and want to update and re render the component
+  const [token,setToken] = useState(localStorage.getItem('token'))
+
+  //// To check if user is logined or not
+  const Logined = useRef(false)
 
 useEffect(()=>{fetch_Projects();
 },[])
@@ -123,8 +126,7 @@ useEffect(()=>{fetch_Projects();
         Showalert(`OTP Sent Sucessfully to ${user.email}`, "success")
         /// Updating data state
         setData(resp.data);
-        console.log(resp.data)
-        console.log(Data)
+        return true
       }
     }
     catch (error) {
@@ -133,6 +135,7 @@ useEffect(()=>{fetch_Projects();
       Disable.current=false
       console.log(error)
       Showalert("Invalid Credentials", "danger")
+      return false
     }
   }
 
@@ -214,15 +217,18 @@ useEffect(()=>{fetch_Projects();
         Showalert("OTP Verified Successfully", "success");
         localStorage.setItem('token', resp.data.token);
         setAuthenticated(true)
+        return true
 
       }
       else {
         Showalert("Invalid Credentials", "danger")
+        return false
       }
 
     } catch (error) {
       console.log(error);
       Showalert("Invalid Credentials", "danger")
+      return false
     }
   } 
 
@@ -230,22 +236,24 @@ useEffect(()=>{fetch_Projects();
   /// Checking the user is authenticated logied in
   const Loggedin = async()=>{
     try{
+      // LodingBar()
+      if(token){
       const url = `${import.meta.env.VITE_HOST_BASE_URLL}auth/auth`;
-      const data = { token: localStorage.getItem('token') };
+      const data = {};
       const config = {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+          "token":token
+         },
       }
-      console.log("user trying to login no token available ")
-      console.log(localStorage.getItem("token"))
-      if(localStorage.getItem('token')){
-        console.log("user trying to login token available ")
+      
         const resp = await axios.post(url,data,config);
- 
         if(resp.data.status){
-          console.log("User Loggined sucessfully")
+          Logined.current=true
           setAuthenticated(true)
           setData(resp.data.data)
-          return 
+      //     clearInterval(intervalRef.current)
+      // setProgress(100)
+          return true
         }
       }
       
@@ -254,26 +262,26 @@ useEffect(()=>{fetch_Projects();
       Showalert(error.message,"danger")
       setAuthenticated(false)
       setData(null)
+      // clearInterval(intervalRef.current)
+      // setProgress(100)
+      return false
     }
   }
 
   //////////// Getting Projects ////////////
   const fetch_Projects = async()=>{
     try{
-      console.log(localStorage.getItem('token'))
       const url = `${import.meta.env.VITE_HOST_BASE_URLL}project/fetchProjects`;
       const data = {};
       const config = {
         headers: { 'Content-Type': 'application/json' ,
-          "token":localStorage.getItem('token')
+          "token":token
         }
       }
-      if(localStorage.getItem('token')){
-        console.log(config.headers)
-        const resp = await axios.get(url,config);/////// dont use data in get request in axios
+      if(token){
+        const resp = await axios.get(url,config);/////// Note: dont use data in get request in axios
         if(resp.data.status){
           setProjects(resp.data.projects)
-          console.log(resp.data.projects)
           return 
         }
       }
@@ -291,12 +299,11 @@ useEffect(()=>{fetch_Projects();
 
   const AddProject = async (Title,link, Pending_Task) => {
     try{
-      console.log(localStorage.getItem('token'))
       const url = `${import.meta.env.VITE_HOST_BASE_URLL}project/addProject`;
       const data = { link: link, Pending_Task: Pending_Task ,Title:Title};
       const config = {
         headers: { 'Content-Type': 'application/json' ,
-          "token":localStorage.getItem('token')
+          "token":token
         }
       }
       if(localStorage.getItem('token')){
@@ -370,7 +377,7 @@ useEffect(()=>{fetch_Projects();
   }
 
   return (
-    <AppContext.Provider value={{ GoogleLogin,Disable, progress,setProgress,Login, SignUp, alert, Showalert, Data,setData,Loggedin ,Authenticated,ResendOTP,VerifyOTP,theme,setTheme,Projects,setProjects,DeleteProject,AddProject,UpdateProject}}>
+    <AppContext.Provider value={{ GoogleLogin,Disable,Logined,progress,setProgress,Login, SignUp, alert, Showalert, Data,setData,Loggedin ,Authenticated,setAuthenticated,ResendOTP,VerifyOTP,theme,setTheme,Projects,setProjects,DeleteProject,AddProject,UpdateProject}}>
       {props.children}
     </AppContext.Provider>
   );

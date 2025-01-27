@@ -61,9 +61,6 @@ function Add_Project() {
     all_task_boxes.forEach((task_box) => {
       Task_details.push({ Title: task_box.value })
     })
-    console.log(Task_details)
-    console.log(Project_Title)
-    console.log(Task_Link)
     AddProject(Project_Title, Task_Link, Task_details)
   }
 

@@ -16,12 +16,6 @@ const Modal_to_Edit_Project = forwardRef((props, ref) => {
     ///// Getting theme from context to change the theme of the component
     const { theme, UpdateProject } = useContext(AppContext)
 
-//    useEffect(() => {
-//     console.log("hi")
-//     Task_details_.push({ Title: "" })
-//     setTask_details_([...Task_details_])
-//    }, [])
-
     /////// Function to handle the adding of the task , When we click on the add button the new task box will be added
     const Task_adding_function = () => {
 
@@ -55,7 +49,6 @@ const Modal_to_Edit_Project = forwardRef((props, ref) => {
         new_add_btn.addEventListener('click', Task_adding_function); // Attach event listener to the add button
         new_remove_btn.addEventListener('click', (e) => {
             Task_details_.splice(task_no - 1, 1)
-            console.log("h")
             task_box.remove(); // Remove the task box when the remove button is clicked
 
         });
@@ -70,12 +63,8 @@ const Modal_to_Edit_Project = forwardRef((props, ref) => {
     const handelTaskEditSubmit = (e) => {
         ////Note: required attribute is needed to make minLength and maxLength work
         e.preventDefault()
-        console.log("ji")
         const submitButton = e.nativeEvent.submitter;
         submitButton.setAttribute("disabled", true)
-        console.log(Task_details_)
-        console.log(Project_Title)
-        console.log(Task_Link)
         const its_Edited = UpdateProject(props.Project_id, Project_Title, Task_Link, Task_details_,[])
         if (its_Edited) {
             submitButton.removeAttribute("disabled")
