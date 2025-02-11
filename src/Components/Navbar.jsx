@@ -8,7 +8,7 @@ import AppContext from '../Context/AppContext';
 /// Navbar
 
 function Navbar() {
-  const {Authenticated,theme,setTheme} = useContext(AppContext)
+  const {Authenticated,theme,setTheme,userImage} = useContext(AppContext)
 
   let location = useLocation();
 
@@ -41,13 +41,13 @@ function Navbar() {
   }
 
 
-//// To Stop Multiple Rendering of Image
-  useEffect(()=>{
-    setTimeout(()=>{
-    if(localStorage.getItem("img")){
-      setImg(localStorage.getItem("img"))
-    }},100)
-  },[localStorage.getItem("img")])
+// //// To Stop Multiple Rendering of Image
+//   useEffect(()=>{
+//     setTimeout(()=>{
+//     if(localStorage.getItem("img")){
+//       setImg(localStorage.getItem("img"))
+//     }},100)
+//   },[localStorage.getItem("img")])
 
   return (
     <div className="navbar-container">
@@ -94,7 +94,7 @@ function Navbar() {
 
 
 {Authenticated?<div className="user-nav">
-  <NavLink to="/user/">{img?<img className='user-img' src={img} loading="lazy" alt="user"  />:<i className="fa-solid fa-circle-user user-nav-icon"></i>}</NavLink>
+  <NavLink to="/user/">{userImage?<img className='user-img' src={userImage} loading="lazy" alt="user"  />:<i className="fa-solid fa-circle-user user-nav-icon"></i>}</NavLink>
       </div>:<></> 
 }
       </div>

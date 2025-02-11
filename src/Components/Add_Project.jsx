@@ -1,93 +1,84 @@
-import React from 'react'
-import { useContext } from 'react'
-import AppContext from '../Context/AppContext'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { all } from 'axios'
+// Import necessary React hooks and components
+import React, { useContext, useState } from 'react';
+import AppContext from '../Context/AppContext';
+import { Link } from 'react-router-dom';
 
 function Add_Project() {
+  // State management for form inputs
+  const [projectTitle, setProjectTitle] = useState("");
+  const [taskDetails, setTaskDetails] = useState([]);
+  const [taskLink, setTaskLink] = useState('');
+  const [tasks, setTasks] = useState([{ id: 1 }]); // Track task inputs
 
-  const [Project_Title, setProject_Title] = useState("")
-  const [Task_details, setTask_details] = useState([])
-  const [Task_Link, setTask_Link] = useState('')
+  // Access context values for theme and project addition
+  const { theme, AddProject } = useContext(AppContext);
 
-  ///// Getting theme from context to change the theme of the component
-  const { theme, AddProject } = useContext(AppContext)
+  // Handle project title input changes
+  const handleTitleChange = (e) => {
+    setProjectTitle(e.target.value);
+  };
 
-  ///// variable to track the new add task box
-  let task_no = 1
+  // Add new task input field
+  const addTaskField = () => {
+    setTasks([...tasks, { id: tasks.length + 1 }]);
+  };
 
-  /////// Function to handle the adding of the task , When we click on the add button the new task box will be added
-  const Task_adding_function = () => {
+  // Remove task input field
+  const removeTaskField = (id) => {
+    setTasks(tasks.filter(task => task.id !== id));
+  };
 
-    let task_box_ = document.querySelector(`.task-box-${task_no} .task-add-btn`)
-    task_box_.classList.add('none')
-    task_box_.nextElementSibling.classList.remove('none')
-    task_no += 1
-    let task_box = document.createElement('div')
-    task_box.classList.add('add-project-task')
-    task_box.classList.add(`task-box-${task_no}`)
-    task_box.classList.add(`styl-flx`)
-    task_box.innerHTML = `
-        <input type='text'minLength={1} required maxLength={50}  placeholder='Task Name' />
-        <div class='task-add-btn'><i class="fa-solid fa-square-plus card-icons"></i></div>
-        <div class='task-remove-btn none'><i class="fa-solid fa-square-minus card-icons"></i></div>
-      `
-    document.querySelector('.add-project-task-adding').appendChild(task_box)
+  // Handle project form submission
+  const handleProjectSubmit = (e) => {
+    e.preventDefault();
 
-    // Append the new task box to the container
-    document.querySelector('.add-project-task-adding').appendChild(task_box);
+    // Collect all task inputs
+    const taskInputs = Array.from(document.querySelectorAll('.task-input-group input'))
+      .map(input => ({ Title: input.value }));
 
-    // Attach event listeners to the new buttons
-    const new_add_btn = task_box.querySelector('.task-add-btn');
-    const new_remove_btn = task_box.querySelector('.task-remove-btn');
+    // Add project through context
+    AddProject(projectTitle, taskLink, taskInputs);
 
-    new_add_btn.addEventListener('click', Task_adding_function); // Attach event listener to the add button
-    new_remove_btn.addEventListener('click', (e) => {
-      task_box.remove(); // Remove the task box when the remove button is clicked
+    // Reset form state
+    setProjectTitle("");
+    setTaskLink("");
+    setTasks([{ id: 1 }]);
+  };
 
-    });
-
-  }
-
-  const handelTitleChange = (e) => {
-    setProject_Title(e.target.value)
-  }
-
-  const handelTaskCardSubmit = (e) => {
-    //// required attribute is needed to make minLength and maxLength work
-    e.preventDefault()
-    const all_task_boxes = document.querySelectorAll('.add-project-task input')
-    all_task_boxes.forEach((task_box) => {
-      Task_details.push({ Title: task_box.value })
-    })
-    AddProject(Project_Title, Task_Link, Task_details)
-  }
-
-  const handleTaskCardLinkSubmit = (e) => {
-    e.preventDefault()
-    setTask_Link(e.target[0].value)
-  }
+  // Handle link submission from modal
+  const handleLinkSubmit = (e) => {
+    e.preventDefault();
+    setTaskLink(e.target[0].value);
+  };
 
   return (
-    <div>
-
-      {/* <!-- Modal --> */}
-      <div className="modal fade" id="exampleModal" style={{ zIndex: "99999" }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className={`${theme === "light" ? "" : "dark-theme"}`}>
+      {/* Link Input Modal */}
+      <div className="modal fade" id="linkModal" style={{ zIndex: "99999" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h5 className="modal-title">Add Project Link</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" />
             </div>
             <div className="modal-body">
-              <form action="" onSubmit={handleTaskCardLinkSubmit}>
+              <form onSubmit={handleLinkSubmit}>
                 <div className="input-group mb-3">
-                  <input type="text" className="form-control" placeholder="Enter Link Here" aria-label="Username" aria-describedby="basic-addon1" />
+                  <input
+                    type="url"
+                    className="form-control"
+                    placeholder="Enter project URL"
+                    aria-label="Project link"
+                    required
+                  />
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                  </button>
+                  <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
+                    Save Link
+                  </button>
                 </div>
               </form>
             </div>
@@ -95,39 +86,70 @@ function Add_Project() {
         </div>
       </div>
 
-
+      {/* Main Project Form */}
       <div className='add-project-container'>
         <div className='add-project-box'>
-          <h2 className={`${theme === "light" ? "" : "c-w"}`}> Add Project</h2>
-          <form action="" onSubmit={handelTaskCardSubmit}>
-            <div className="add-project-header styl-flx">
-              <div className='add-project-input w100'>
-                <input type='text' required minLength={1} id="Title" onChange={handelTitleChange} maxLength={50} placeholder='Project Name' />
-              </div>
-              <div className='add-project-input'>
-                {/* <!-- Button trigger modal --> */}
-                <div type="button" className="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  <i className="fa-solid fa-link card-icons"></i>
-                </div>
+          <h2 className={theme === "light" ? "" : "text-light"}>Add Project</h2>
 
+          <form onSubmit={handleProjectSubmit}>
+            {/* Project Header Section */}
+            <div className="project-header">
+              <div className='project-title-input'>
+                <input
+                  type="text"
+                  required
+                  minLength={1}
+                  maxLength={50}
+                  value={projectTitle}
+                  onChange={handleTitleChange}
+                  placeholder='Project Name'
+                />
+              </div>
+              <div className='project-link-button' data-bs-toggle="modal" data-bs-target="#linkModal">
+                <i className="fa-solid fa-link"></i>
               </div>
             </div>
-            <h4 className={`${theme === "light" ? "" : "c-w"}`}>Add Tasks</h4>
-            <div className="add-project-task-adding">
-              <div className='add-project-task task-box-1 styl-flx w100' id='task-box-1'>
-                <input type='text' required minLength={1} className="" maxLength={50} placeholder='Task Name' />
-                <div className='task-add-btn' onClick={Task_adding_function}><i className="fa-solid fa-square-plus card-icons"></i></div>
-                <div className='none task-remove-btn ' onClick={() => { document.getElementById("task-box-1").remove() }}><i className="fa-solid fa-square-minus card-icons"></i></div>
-              </div>
+
+            {/* Task Input Section */}
+            <h4 className={theme === "light" ? "" : "text-light"}>Project Tasks</h4>
+            <div className="task-inputs-container">
+              {tasks.map((task, index) => (
+                <div key={task.id} className="task-input-group">
+                  <input
+                    type="text"
+                    required
+                    minLength={1}
+                    maxLength={50}
+                    placeholder={`Task ${index + 1}`}
+                  />
+                  <div className="task-controls">
+                    {index === tasks.length - 1 && (
+
+                      <div onClick={addTaskField}>
+                        <i className="fa-solid fa-square-plus"></i>
+                      </div>
+                    )}
+                    {tasks.length > 1 && (
+                      <div onClick={() => removeTaskField(task.id)}>
+                        <i className="fa-solid fa-square-minus"></i>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="task-card-submit-button">
-              <button type="submit" className="btn btn-primary">Add Project</button>
+
+            {/* Form Submission */}
+            <div className="form-actions">
+              <button type="submit" className="btn btn-primary">
+                Create Project
+              </button>
             </div>
           </form>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Add_Project
+export default Add_Project;

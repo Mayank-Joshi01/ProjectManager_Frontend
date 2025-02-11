@@ -10,7 +10,7 @@ function Reset_Password() {
     let location = useLocation()
     let navigate = useNavigate()
     
-    const {Showalert} = useContext(AppContext)
+    const {showAlert} = useContext(AppContext)
     const queryParams = new URLSearchParams(location.search);
 
     const token = queryParams.get("token");
@@ -31,12 +31,12 @@ function Reset_Password() {
     const resp = await axios.post(url, data, config);
 
     if (resp.data.status) {
-      Showalert("Password Updated Successfully", "success")
+      showAlert("Password Updated Successfully", "success")
       navigate("/user/")
       
     }
     else {
-      Showalert("Something Went Wrong", "danger")
+      showAlert("Something Went Wrong", "danger")
       navigate("/user/")
     }
     return resp

@@ -19,7 +19,7 @@ function SignUp() {
   }
 
   /// Importing GoogleLogin from AppContext
-  const { GoogleLogin, SignUp, Showalert,ResendOTP,VerifyOTP,Data,theme,Disable } = useContext(AppContext)
+  const { GoogleLogin, SignUp, showAlert,ResendOTP,VerifyOTP,Data,theme,Disable } = useContext(AppContext)
 
   ///////////////// OTP  /////////////////////////
 
@@ -124,7 +124,7 @@ function SignUp() {
 
     /// Checking if OTP is empty
     if(otp.d1 === "" || otp.d2 === "" || otp.d3 === "" || otp.d4 === "" || otp.d5 === "" || otp.d6 === ""){
-      Showalert("Please Enter Valid OTP", "danger");
+      showAlert("Please Enter Valid OTP", "danger");
 
       //// Adding Invalid OTP Class
       for (let i = 0; i < 6; i++) {
@@ -209,7 +209,7 @@ function SignUp() {
           </div>
           <button disabled={Disable.current} type="submit" className="btn btn-primary w100" >SignUp</button>
         </form>
-        <button disabled={Disable.current} className='w100 btn btn-primary' style={{marginTop:"10px",height:"38px"}}  onClick={()=>{GoogleLogin}}><img src="/images/google-symbol.png" style={{ height: "25px" }} className='mx-1' alt="" /> SignUp With Google</button>
+        <button disabled={Disable.current} className='w100 btn btn-primary' style={{marginTop:"10px",height:"38px"}}  onClick={()=>{GoogleLogin()}}><img src="/images/google-symbol.png" style={{ height: "25px" }} className='mx-1' alt="" /> SignUp With Google</button>
       <hr style={{border:`${theme==="light"?"":"1px solid white"}`}}/>
       <p className={`form-text ${theme==="light"?"":"c-w"}`} >Already have an Account?</p>
       <NavLink className="btn btn-outline-primary w100" to="/login/">Login</NavLink>
